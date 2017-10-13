@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Demo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <link rel="stylesheet" href="css/idangerous.swiper.css">
+  <link rel="stylesheet" href="css/idangerous.swiper.scrollbar.css">
+  <script src="js/jquery-1.10.1.min.js"></script>
+  <script src="js/idangerous.swiper-2.1.min.js"></script>
+  <script src="js/idangerous.swiper.scrollbar-2.1.js"></script>
+  <style>
+*{margin:0;padding:0;}
+html,body{height: 100%;}
+.swiper-container{color: #fff;text-align: center;height:100%;position:relative;}
+.swiper-slide{width:100%;}
+.swiper-slide .tit{font-size:50px;margin-top:50px;}
+#page_1{background: #ca4040;}
+#page_2{background: #4390ee;}
+#page_3{background: #973e76;}
+#page_4{background: #ff8604; height:auto !important;}
+
+/*分页器*/
+.pagination{
+	position: absolute;
+	z-index: 20;
+	left: 0;
+	top: 0;
+	height: 100%;
+	text-align: center;
+}
+.swiper-pagination-switch {
+	display: block;
+	width: 8px;
+	height: 8px;
+	border-radius: 8px;
+	background: #555;
+	margin: 0 5px;
+	opacity: 0.8;
+	border: 1px solid #fff;
+	cursor: pointer;
+}
+.swiper-active-switch {
+	background: #fff;
+}
+
+/*滚动条*/
+#swiper-scrollbar{
+	position: absolute;
+	z-index: 20;	
+	right: 0;
+	top: 0;
+	height: 100%;
+	width:6px;
+}
+
+
+  </style>
+</head>
+<body>
+	<div class="swiper-container">
+		<div class="swiper-wrapper">
+			<div class="swiper-slide" id="page_1">
+				<div class="tit">page_1</div>
+			</div>
+			<div class="swiper-slide" id="page_2">
+				<div class="tit">page_2</div>
+			</div>
+			<div class="swiper-slide" id="page_3">
+				<div class="tit">page_3</div>
+			</div>
+			<div class="swiper-slide" id="page_4">
+				<p>aa</p><p>aa</p><p>aa</p><p>aa</p><p>aa</p><p>aa</p><p>aa</p><p>aa</p><p>aa</p><p>aa</p><p>aa</p><p>aa</p><p>aa</p><p>aa</p>
+				<p>aa</p><p>aa</p><p>aa</p><p>aa</p><p>aa</p><p>aa</p><p>aa</p><p>aa</p><p>aa</p><p>aa</p><p>aa</p><p>aa</p><p>aa</p><p>aa</p>
+				<p>aa</p><p>aa</p><p>aa</p><p>aa</p><p>aa</p><p>aa</p><p>aa</p><p>aa</p><p>aa</p><p>aa</p><p>aa</p><p>aa</p><p>aa</p><p>aa</p>
+				<p>aa</p><p>aa</p><p>aa</p><p>aa</p><p>aa</p><p>aa</p><p>aa</p><p>aa</p><p>aa</p><p>aa</p><p>aa</p><p>aa</p><p>aa</p><p>aa</p>
+				<p>aa</p><p>aa</p><p>aa</p><p>aa</p><p>aa</p><p>aa</p><p>aa</p><p>aa</p><p>aa</p><p>aa</p><p>aa</p><p>aa</p><p>aa</p><p>aa</p>
+				<p>aa</p><p>aa</p><p>aa</p><p>aa</p><p>aa</p><p>aa</p><p>aa</p><p>aa</p><p>aa</p><p>aa</p><p>aa</p><p>aa</p><p>aa</p><p>aa</p>
+				<p>aa</p><p>aa</p><p>aa</p><p>aa</p><p>aa</p><p>aa</p><p>aa</p><p>aa</p><p>aa</p><p>aa</p><p>aa</p><p>aa</p><p>aa</p><p>aa</p>
+				<p>aa</p><p>aa</p><p>aa</p><p>aa</p><p>aa</p><p>aa</p><p>aa</p><p>aa</p><p>aa</p><p>aa</p><p>aa</p><p>aa</p><p>aa</p><p>aa</p>
+				<p>aa</p><p>aa</p><p>aa</p><p>aa</p><p>aa</p><p>aa</p><p>aa</p><p>aa</p><p>aa</p><p>aa</p><p>aa</p><p>aa</p><p>aa</p><p>aa</p>
+				<p>aa</p><p>aa</p><p>aa</p><p>aa</p><p>aa</p><p>aa</p><p>aa</p><p>aa</p><p>aa</p><p>aa</p><p>aa</p><p>aa</p><p>aa</p><p>aa</p>
+				<p>aa</p><p>aa</p><p>aa</p><p>aa</p><p>aa</p><p>aa</p><p>aa</p><p>aa</p><p>aa</p><p>aa</p><p>aa</p><p>aa</p><p>aa</p><p>aa</p>
+				<p>aa</p><p>aa</p><p>aa</p><p>aa</p><p>aa</p><p>aa</p><p>aa</p><p>aa</p><p>aa</p><p>aa</p><p>aa</p><p>aa</p><p>aa</p><p>aa</p>
+				<p>aa</p><p>aa</p><p>aa</p><p>aa</p><p>aa</p><p>aa</p><p>aa</p><p>aa</p><p>aa</p><p>aa</p><p>aa</p><p>aa</p><p>aa</p><p>aa</p>
+			</div>
+		 
+		</div>
+		<div class="pagination"></div>
+		<div id="swiper-scrollbar"></div>
+	</div>
+	
+<script>
+
+	$(".swiper-slide").height($(window).height());
+	var mySwiper = new Swiper('.swiper-container',{
+		mode: 'vertical',
+	    keyboardControl : true,
+		mousewheelControl : true,
+		pagination : '.pagination',
+		scrollbar: {
+			container : '#swiper-scrollbar',
+			snapOnRelease : true,
+			hide : false,
+		},
+		paginationClickable: true,
+		slidesPerView: 'auto',
+		//resistance:"100%" //不反弹
+	})
+
+  
+</script>
+</body>
+</html>

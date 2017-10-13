@@ -1,0 +1,23 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"> 
+<html xmlns="http://www.w3.org/1999/xhtml"> 
+<head> 
+<meta http-equiv="Content-Type" content="text/html; charset=gb2312"> 
+<title>如何实现一个日期下拉菜单</title> 
+<script type="text/javascript" src="year_month_day.js"></script> 
+</head> 
+<body> 
+<select id="selYear"></select> 
+<select id="selMonth"></select> 
+<select id="selDay"></select> 
+<script type="text/javascript"> 
+var selYear = window.document.getElementById("selYear"); 
+var selMonth = window.document.getElementById("selMonth"); 
+var selDay = window.document.getElementById("selDay"); 
+// 新建一个DateSelector类的实例，将三个select对象传进去 
+new DateSelector(selYear, selMonth, selDay, 2004, 2, 29); 
+// 也可以试试下边的代码 
+// var dt = new Date(2004, 1, 29); 
+// new DateSelector(selYear, selMonth ,selDay, dt); 
+</script> 
+</body> 
+</html> 

@@ -1,0 +1,23 @@
+{
+  "name": "my-docs",
+  "version": "1.0.0",
+  "description": "> 平时的文档整理\r ``` bash\r # install dependencies\r npm install",
+  "main": "index.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/oudeqi/my-docs.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/oudeqi/my-docs/issues"
+  },
+  "homepage": "https://github.com/oudeqi/my-docs#readme"
+}

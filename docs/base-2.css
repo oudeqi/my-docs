@@ -1,0 +1,221 @@
+@charset "utf-8";
+html {
+	width: 100%;
+	height: 100%;
+	-ms-touch-action: none;
+}
+body {
+	width: 100%;
+	height: 100%;
+	line-height: 1;
+	color: #000;
+	background: #fff;
+	overflow-y: scroll;
+	font-family: Helvetica "微软雅黑" sans-serif;
+	-webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+	-webkit-user-select: none;
+	-webkit-touch-callout: none;
+	-ms-text-size-adjust: 100%;
+	-webkit-text-size-adjust: 100%;
+}
+body,
+div,
+dl,
+dt,
+dd,
+ul,
+ol,
+li,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+pre,
+code,
+form,
+fieldset,
+legend,
+input,
+textarea,
+p,
+blockquote,
+th,
+td,
+hr,
+button,
+article,
+aside,
+details,
+figcaption,
+figure,
+footer,
+header,
+hgroup,
+menu,
+nav,
+section {
+	margin: 0;
+	padding: 0;
+}
+a,button,input,textarea,select{
+	-webkit-tap-highlight-color: rgba(0,0,0,0;);
+	-webkit-appearance:none;
+	appearance:none;
+	font-size: 100%;
+	outline: 0;
+}
+input::-webkit-input-placeholder{color:#aaa;}
+input:focus::-webkit-input-placeholder{color:#eee;}
+input[type=radio]::-ms-check,
+input[type=checkbox]::-ms-check,
+input[type=text]::-ms-clear,
+input[type=tel]::-ms-clear,
+input[type=number]::-ms-clear,
+input::-webkit-input-speech-button,
+select::-ms-expand{display: none}
+table{
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+fieldset,
+img {
+	border: 0;
+}
+abbr,
+acronym {
+	border: 0;
+	font-variant: normal;
+}
+del {
+	text-decoration: line-through;
+}
+address,
+caption,
+cite,
+code,
+dfn,
+em,
+th,
+var {
+	font-style: normal;
+	font-weight: 500;
+}
+ol,
+ul {
+	list-style: none;
+}
+caption,
+th {
+	text-align: left;
+}
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+	font-size: 100%;
+	font-weight: 500;
+}
+q:before,
+q:after {
+	content: '';
+}
+sub,
+sup {
+	font-size: 75%;
+	line-height: 0;
+	position: relative;
+	vertical-align: baseline;
+}
+sup {
+	top: -.5em;
+}
+sub {
+	bottom: -.25em;
+}
+a:hover {
+	text-decoration: underline;
+}
+ins,
+a {
+	text-decoration: none;
+}
+
+
+
+
+
+.hide{display: none !important;}
+.clearfix {zoom: 1;}
+.clearfix:after {content: "";display: block;height: 0;overflow: hidden;clear: both;}
+
+
+
+.btn-blue{display:block;height:42px;line-height:42px;text-align:center;border-radius:4px;font-size:18px;color:#FFFFFF;background-color: #4185F3;}
+.btn-blue:active{background-color: #357AE8;}
+/*模拟按钮hover效果*/
+@media all and (orientation:portrait) {
+	.css{}
+/*竖屏时使用的样式*/
+@media all and (orientation:landscape) {
+	.css{}
+}
+/*横屏时使用的样式*/
+
+/* ============================================================
+   flex：定义布局为盒模型
+   flex-v：盒模型垂直布局
+   flex-1：子元素占据剩余的空间
+   flex-align-center：子元素垂直居中
+   flex-pack-center：子元素水平居中
+   flex-pack-justify：子元素两端对齐
+   兼容性：ios 4+、android 2.3+、winphone8+
+   ============================================================ */
+.flex{display:-webkit-box;display:-webkit-flex;display:-ms-flexbox;display:flex;}
+.flex-v{-webkit-box-orient:vertical;-webkit-flex-direction:column;-ms-flex-direction:column;flex-direction:column;}
+.flex-1{-webkit-box-flex:1;-webkit-flex:1;-ms-flex:1;flex:1;}
+.flex-align-center{-webkit-box-align:center;-webkit-align-items:center;-ms-flex-align:center;align-items:center;}
+.flex-pack-center{-webkit-box-pack:center;-webkit-justify-content:center;-ms-flex-pack:center;justify-content:center;}
+.flex-pack-justify{-webkit-box-pack:justify;-webkit-justify-content:space-between;-ms-flex-pack:justify;justify-content:space-between;}
+
+
+/* ============================================================
+   flex：定义布局为盒模型
+   flex-v：盒模型垂直布局
+   flex-1：子元素占据剩余的空间
+   flex-align-center：子元素垂直居中
+   flex-pack-center：子元素水平居中
+   flex-pack-justify：子元素两端对齐
+   兼容性：ios 4+、android 2.3+、winphone8+
+   ============================================================ */
+.flex{display:-webkit-box;display:-webkit-flex;display:-ms-flexbox;display:flex;}
+.flex-v{-webkit-box-orient:vertical;-webkit-flex-direction:column;-ms-flex-direction:column;flex-direction:column;}
+.flex-1{-webkit-box-flex:1;-webkit-flex:1;-ms-flex:1;flex:1;}
+.flex-align-center{-webkit-box-align:center;-webkit-align-items:center;-ms-flex-align:center;align-items:center;}
+.flex-pack-center{-webkit-box-pack:center;-webkit-justify-content:center;-ms-flex-pack:center;justify-content:center;}
+.flex-pack-justify{-webkit-box-pack:justify;-webkit-justify-content:space-between;-ms-flex-pack:justify;justify-content:space-between;}
+
+
+/* 定义盒模型为怪异和模型（宽高不受边框影响） */
+.boxSiz {-webkit-box-sizing: border-box;-moz-box-sizing: border-box;-ms-box-sizing: border-box;-o-box-sizing: border-box;box-sizing: border-box;}
+/* 强制换行 */
+.toWrap {word-break: break-all;	word-wrap: break-word;white-space: pre-wrap;}
+/* 禁止换行 */
+.noWrap {white-space: nowrap;}
+/* 禁止换行,超出省略号 */
+.noWrapEllipsis {white-space: nowrap;overflow: hidden;text-overflow: ellipsis;}
+/* 文字两端对齐 */
+.text-justify {text-align: justify;text-justify: inter-ideograph;}
+
+
+
+
+
+
+
+
+
+

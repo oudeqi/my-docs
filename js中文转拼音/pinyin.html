@@ -1,0 +1,18 @@
+﻿<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>拼音</title>
+</head>
+<body>
+	<script src="pinyin.js"></script>
+	<script>
+	
+		var py = new Pinyin();
+		var str = '欧得起';
+		var ox = py.getCharsArray(str);
+		document.write(str+'--&gt;'+ox.join(' '));
+		
+	</script>
+</body>
+</html>

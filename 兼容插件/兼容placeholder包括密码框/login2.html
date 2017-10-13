@@ -1,0 +1,172 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>智慧WiFi登陆</title>
+<link rel="stylesheet" href="./login2.css" type="text/css">
+<script src="./jquery.js" type="text/javascript"></script>
+<script type="text/javascript">
+$(function () {
+	if(/MSIE\s(\d+)/.test(navigator.userAgent) && navigator.userAgent.match(/MSIE\s(\d+)/)[1] < 10) {
+		$('[placeholder]').each(function(){
+			$(this).val('');
+		}).css('color','#666666');
+
+		$('[placeholder]').each(function () {
+			if($(this).attr('type') != 'password'){
+				var pla = $(this).attr('placeholder');
+				$(this).focus(function () {
+					if($(this).val() == pla) {
+						$(this).val('').css('color','#666666');
+					}
+				}).blur(function () {
+					if($(this).val() == '') {
+						$(this).val(pla);
+					}
+				}).keyup(function(){
+					if($(this).val() == ''){
+						$(this).css('color','#666666');	
+					}else{
+						$(this).css('color','#000000');	
+					}
+					
+				});
+			}else{$(this).css('color','#000000');}			
+			$(this).trigger('blur');//此处利用blur事件,为了业务需求。防止页面上查询后，文本框需要保留搜索的关键被placeholder代替
+		});
+		
+		var showPwd = $('#showPwd'), pwd = $('#pwd');  
+		showPwd.focus(function(){  
+			pwd.show().focus();  
+			showPwd.hide();  
+		});  
+
+		pwd.blur(function(){  
+			if(pwd.val()=="") {  
+				showPwd.show();  
+				pwd.hide();  
+			}  
+		}); 
+		
+	}else{
+		
+	}
+});
+
+$(function(){
+	$('#login').on('click',function(){
+		checkUser(function(){
+			return false;
+		});
+		checkPwd(function(){
+			alert('2');
+		});
+		checkYzm(function(){
+			alert('3');
+		});
+	});
+	
+	function checkUser(callback){
+		if($('#uname').val() == '' || $('#uname').val() == '请输入用户名'){
+			$('.uname_error_info').text('用户名不能为空!').show();
+			return false;
+		}else{
+			if(typeof callback == 'function'){
+				$('.uname_error_info').text('用户名或密码错误!').hide();
+				return callback();
+			}
+		}
+	}
+	function checkPwd(callback){
+		if($('#pwd').val() == '' || $('#pwd').val() == '请输入密码'){
+			$('.psd_error_info').text('请输入密码!').show();
+			return false;
+		}else{
+			if(typeof callback == 'function'){
+				$('.psd_error_info').text('').hide();
+				return callback();
+			}
+		}
+	}
+	function checkYzm(callback){
+		if($('#yzm').val() == '' || $('#yzm').val() == '请输入验证码'){
+			$('.yzm_error_info').text('请输入验证码!').show();
+			return false;
+		}else{
+			if(typeof callback == 'function'){
+				$('.yzm_error_info').text('').hide();
+				return callback();
+			}
+		}
+	}
+
+});
+
+
+
+</script>
+<!--[if IE 6]>
+<script src="./DD_belatedPNG_0.0.8a.js"  type="text/javascript"></script>
+<script type="text/javascript"> 
+	DD_belatedPNG.fix('.midd img');
+</script> 
+<![endif]-->
+</head>
+<body>
+<div id="container">
+<div id="header">
+	<a class="hleft" href="##">
+		<img src="./login_logo2.jpg" alt="智慧wifi" />
+	</a>
+	<span class="hright"><a class="lft" href="##">注册</a>&nbsp;|&nbsp;<a class="lft" href="##">找回密码</a></span>
+</div>
+<div id="main">
+	<div class="midd">
+		<img src="./login_left2.png" />
+		<div class="midd_r">
+			<div class="tit">微盟会员登录</div>
+			<form>
+				<div class="form_row user_name">
+					<input type="text" id="uname" name="username" value="" placeholder="请输入用户名">
+					<span class="uname_error_info">用户名或密码输入错误</span>
+				</div>
+				<div class="form_row user_password">
+					<input id="pwd" type="password" name="password" value="" placeholder="请输入密码">
+					<!--[if lt IE 10]>
+						<script type="text/javascript"> 
+							document.getElementById('pwd').style.display = 'none';
+						</script> 
+						<input id="showPwd" type="text" value="" placeholder="请输入密码" /> 
+					<![endif]-->
+					<span class="psd_error_info">用户名或密码输入错误</span>
+				</div>
+				<div class="form_row yzm">
+					<div class="yzm_ipt">
+					<input type="text" name="yzm" id="yzm" value="" placeholder="请输入验证码">
+					</div>
+					<div class="yzmbox">
+						<img src="./yzm.jpg" height="45" width="90" title="点击更换验证码" />
+					</div>
+					<span class="yzm_error_info">验证码输入错误</span>
+				</div>
+				<div class="form_row rember_pswd">
+					<label for="remberpswd" onselectstart="javascript:return false;"><input id="remberpswd" type="checkbox" />记住密码</label>
+				</div>
+				<div class="form_row loginbtn">
+					<input type="button" value="登陆" id="login" />
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
+<div id="footer">
+		<div class="about">
+		<a href="javascript:void(0);">关于智慧WIFI</a> | <a href="javascript:void(0);">商务合作</a> | <a href="javascript:void(0);">用户协议</a> | <a href="javascript:void(0)">版权说明</a>
+		</div>
+		<div class="corpyrite">Copyright © 2012 - 2014 All Rights Reserved 智慧WIFI 版权所有 使用智慧前必读</div>
+	</div>
+
+
+</div>
+</body>
+</html>

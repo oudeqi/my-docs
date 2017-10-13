@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8" />
+	<title>手机网站模板</title>
+	<meta name="Keywords" content=""/>
+	<meta name="Description" content=""/>
+	<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+	<!--H5页面窗口自动调整到设备宽度，并禁止用户缩放页面-->
+	<meta name="format-detection" content="telephone=no,email=no,adress=no"/>
+	<!--忽略将页面中的数字识别为电话号码--><!--忽略Android平台中对邮箱地址的识别-->
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<!--当网站添加到主屏幕快速启动方式，可隐藏地址栏，仅针对ios的safari--><!-- ios7.0版本以后，safari上已看不到效果 -->
+	<meta name="apple-mobile-web-app-status-bar-style" content="black"/>
+	<!--将网站添加到主屏幕快速启动方式，仅针对ios的safari顶端状态条的样式--><!-- 可选default、black、black-translucent -->
+	<meta name="msapplication-tap-highlight" content="no">
+	<!--去掉winphone系统a、input标签被点击时产生的半透明灰色背景-->
+	
+	
+	<meta name="author" content="oudeqi,1111@qq.com"/>
+	
+	<link rel="apple-touch-icon" sizes="57x57" href="touch-icon-iphone-114.png" />  
+	<!-- Standard iPhone --><!--57×57（默认值）的图标对应320×640的iphone老设备-->
+	<link rel="apple-touch-icon" sizes="72x72" href="touch-icon-ipad-144.png" />  
+	<!-- Standard iPad --><!--72×72对应ipad-->
+	<link rel="apple-touch-icon" sizes="114x114" href="touch-icon-iphone-114.png" />  
+	<!-- Retina iPhone --><!--114×114对应retina屏的iPhone及iTouch-->
+	<link rel="apple-touch-icon" sizes="144x144" href="touch-icon-ipad-144.png" />
+	<!-- Retina iPad --><!--ipad3对应144×144的高分辨率。-->
+	<link rel="apple-touch-icon-precomposed" href="" />
+	<!--不想系统对图标添加效果,这时我们提供的图标就要自己做圆角和高亮效果了。-->
+	<!--由于 retina 图标的尺寸是标准图标大小的2倍，因此实际上我们只需要只做2款图标即可：114 x 114 和 144 x 144 。
+	将retina 图标的大小设置成标准图标的尺寸，那么IOS就会根据情况自动进行缩放了。-->
+	<link rel="stylesheet" type="text/css" href="css/base.css"/>
+</head>
+<body>
+<h2>以下支持webkit</h2>
+<ul>
+	<li>touchstart——当手指触碰屏幕时候发生。不管当前有多少只手指</li>
+	<li>touchmove——当手指在屏幕上滑动时连续触发。通常我们再滑屏页面，会调用event的preventDefault()可以阻止默认情况的发生：阻止页面滚动</li>
+	<li>touchend——当手指离开屏幕时触发</li>
+	<li>touchcancel——系统停止跟踪触摸时候会触发。例如在触摸过程中突然页面alert()一个提示框，此时会触发该事件，这个事件比较少用</li>
+</ul>
+<h2>TouchEvent</h2>
+<ul>
+	<li>touches：屏幕上所有手指的信息</li>
+	<li>targetTouches：手指在目标区域的手指信息</li>
+	<li>changedTouches：最近一次触发该事件的手指信息</li>
+	<li>
+		touchend时，touches与targetTouches信息会被删除，changedTouches保存的最后一次的信息，最好用于计算手指信息
+		参数信息(changedTouches[0])clientX、clientY在显示区的坐标,target：当前元素
+	</li>
+</ul>
+
+<h2>以下支持winphone 8</h2>
+<ul>
+	<li>MSPointerDown——当手指触碰屏幕时候发生。不管当前有多少只手指</li>
+	<li>MSPointerMove——当手指在屏幕上滑动时连续触发。通常我们再滑屏页面，会调用css的html{-ms-touch-action: none;}可以阻止默认情况的发生：阻止页面滚动</li>
+	<li>MSPointerUp——当手指离开屏幕时触发</li>
+</ul>
+
+<h2>触摸事件的响应顺序</h2>
+<ul>
+	<li>1、ontouchstart</li>
+	<li>2、ontouchmove </li>
+	<li>3、ontouchend </li>
+	<li>4、onclick</li>
+</ul>
+<h2>打电话发短信写邮件怎么实现</h2>
+<ul>
+	<li><a href="tel:0755-10086">打电话给:0755-10086</a></li>
+	<li><a href="sms:10086">发短信给: 10086</a>&nbsp;发短信，winphone系统无效</li>
+	<li><a href="mailto:peun@foxmail.com">发邮件给: peun@foxmail.com</a></li>
+</ul>
+
+<div class="btn-blue">按钮 hover 效果</div>
+<h2>屏幕旋转的事件</h2>
+<script type="text/javascript">
+	window.onorientationchange = function(){
+	    switch(window.orientation){
+	        case -90:
+	        case 90:
+	        alert("横屏:" + window.orientation);
+	        case 0:
+	        case 180:
+	        alert("竖屏:" + window.orientation);
+	        break;
+	    }
+	}
+</script>
+<h2>audio元素和video元素在ios和andriod中无法自动播放</h2>
+<script type="text/javascript">
+	$('html').one('touchstart',function(){
+	    audio.play()
+	})
+</script>
+<h2>手机拍照和上传图片使用总结：</h2>
+<!-- 选择照片 -->
+<input type=file accept="image/*">
+<!-- 选择视频 -->
+<input type=file accept="video/*">
+<ul>
+	<li>ios 有拍照、录像、选取本地图片功能</li>
+	<li>部分android只有选取本地图片功能</li>
+	<li>winphone不支持</li>
+	<li>input控件默认外观丑陋</li>
+</ul>
+<h2>微信浏览器用户调整字体大小后页面矬了，怎么阻止用户调整</h2>
+<ul>
+	<li>android侧是复写了layoutinflater 对textview做了统一处理</li>
+	<li>ios侧是修改了body.style.webkitTextSizeAdjust值</li>
+	<li>android使用以下代码，该接口只在微信浏览器下有效(感谢jationhuang同学提供)</li>
+	<script type="text/javascript">
+		/**
+ * 页面加入这段代码可使Android机器页面不再受到用户字体缩放强制改变大小
+ * 但是会有一个1秒左右的延迟，期间可以考虑通过loading展示
+ * 仅供参考
+ */
+(function(){
+    if (typeof(WeixinJSBridge) == "undefined") {
+        document.addEventListener("WeixinJSBridgeReady", function (e) {
+            setTimeout(function(){
+                WeixinJSBridge.invoke('setFontSizeCallback',{"fontSize":0}, function(res) {
+                    alert(JSON.stringify(res));
+                });
+            },0);
+        });
+    } else {
+        setTimeout(function(){
+            WeixinJSBridge.invoke('setFontSizeCallback',{"fontSize":0}, function(res) {
+                alert(JSON.stringify(res));
+            });
+        },0);
+    }
+})();
+	</script>
+	<li>ios使用-webkit-text-size-adjust禁止调整字体大小</li>
+	<li></li>
+</ul>
+<h2>开启硬件加速,解决页面闪白,保证动画流畅</h2>
+<ul>
+	<li>-webkit-transform: translate3d(0, 0, 0);</li>
+	<li>-moz-transform: translate3d(0, 0, 0);</li>
+	<li>-ms-transform: translate3d(0, 0, 0);</li>
+	<li>transform: translate3d(0, 0, 0);</li>
+</ul>
+<h2>取消input在ios下，输入的时候英文首字母的默认大写</h2>
+<input autocapitalize="off" autocorrect="off" />
+<h2>fixed bug</h2>
+<ul>
+	<li>ios下fixed元素容易定位出错，软键盘弹出时，影响fixed元素定位</li>
+	<li>android下fixed表现要比iOS更好，软键盘弹出时，不会影响fixed元素定位</li>
+	<li>ios4下不支持position:fixed</li>
+	<li>ios 可用isroll.js，暂无完美方案.</li>
+	<li>
+		不要在 fixed 元素中使用 input / textarea 元素。
+		依然不推荐在 Android下使用 iScroll。开发项目时，可以考虑分为两个版本：iOS下使用 iScroll的解决方案，Android下使用 position:fixed。
+	</li>
+</ul>
+<h2>播放视频不全屏</h2>
+<video x-webkit-airplay="true" webkit-playsinline="true" preload="auto" autoplay src="http://"></video>
+<ul>
+	<li>1.目前只有ios7+、winphone8+支持自动播放</li>
+	<li>2.支持Airplay的设备（如：音箱、Apple TV)播放x-webkit-airplay="true" </li>
+	<li>3.播放视频不全屏，ios7+、winphone8+支持，部分android4+支持（含华为、小米、魅族）webkit-playsinline="true" </li>
+</ul>
+
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

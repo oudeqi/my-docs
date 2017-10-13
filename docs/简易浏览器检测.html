@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<title>浏览器名称及版本号</title>
+</head>
+<body>
+<script type="text/javascript">
+		(function(){
+			window.nav={};
+			var ua=navigator.userAgent.toLowerCase();
+			var arr;
+			
+			(arr=ua.match(/msie (\S+);/))?nav.ie=arr[1]:(arr=ua.match(/firefox\/(\S+)/))?nav.firefox=arr[1]:(arr=ua.match(/chrome\/(\S+)/))?nav.chrome=arr[1]:(arr=ua.match(/opera\/.*version\/(\S+)/))?nav.opera=arr[1]:(arr=ua.match(/version\/(\S+).*safari/))?nav.safari=arr[1]:(document.documentMode==11)?nav.ie=11:(document.documentMode==10)?nav.ie=10:0;
+		})();
+
+		for(var i in nav){
+			alert('Your brower is: '+i+'\n'+'Version is: '+nav[i]);
+		}
+	
+    </script>
+</body>
+</html>
