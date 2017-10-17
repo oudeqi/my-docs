@@ -1,0 +1,20 @@
+/*全局字体响应*/
+@define-extend font_responsive { 
+	font-size: responsive;
+	lower-font-range: $min_width;
+	upper-font-range: $max_width;
+	min-font-size: 14px;
+	max-font-size: 18px;
+}
+
+/*通过让布局块的字体大小的响应式，
+来达到布局块高度响应式的目的，
+最大宽度1920，字体大小100px，
+最小宽度1024，字体大小calc(100px * 1024 / 1920)*/
+@define-extend layout_responsive { 
+	font-size: responsive;
+	upper-font-range: $max_width;
+	lower-font-range: $min_width;
+	max-font-size: 100px;
+	min-font-size: calc(100px * 1024 / 1920);
+}
