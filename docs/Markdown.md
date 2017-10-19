@@ -100,17 +100,15 @@ h2
 
 # 兼容 HTML
 1. 不在 Markdown 涵盖范围之内的标签，都可以直接在文档里面用 HTML 撰写。
-2. HTML 的区段（行内）标签如 `<span>`、`<cite>`、`<del>` 可以在 Markdown 的段落、列表或是标题里随意使用，甚至可以不用 Markdown 格式，而直接采用 HTML 标签来格式化
-3. 举例说明：如果比较喜欢 HTML 的 <a> 或 <img> 标签，可以直接使用这些标签，而不用 Markdown 提供的链接或是图像标签语法。
+2. HTML 的区段（行内）标签如 `<span>`、`<cite>`、`<del>` 可以在 Markdown 的段落、列表或是标题里随意使用，甚至可以不用 Markdown 格式，而直接采用HTML标签来格式化
+3. 举例说明：如果比较喜欢 HTML 的 <a> 或 <img> 标签，可以直接使用这些标签，而不用 Markdown 提供的链接或是图像标签语法。  
 
-----
 <a href="http://www.oudeqi.com">我的主页</a>
-
 ``` bash
 <a href="http://www.oudeqi.com">我的主页</a>
 ```
 
-> 注意，在 HTML 区块标签间的 Markdown 格式语法将不会被处理。比如，你在 HTML 区块内使用 Markdown 样式的*强调*会没有效果。
+注意，在 HTML 区块标签间的 Markdown 格式语法将不会被处理。比如，你在 HTML 区块内使用 Markdown 样式的*强调*会没有效果。
 
 这是一个普通段落。
 <table>
@@ -140,7 +138,6 @@ h2
 这是另一个普通段落。
 ```
 
----
 <ul>
 	<li>列表1</li>
 	<li>列表2</li>
@@ -159,16 +156,29 @@ h2
 1. 在 HTML 文件中，特殊字符需要特殊处理： < 和 & 。 < 符号用于起始标签，& 符号则用于标记 HTML 实体
 2. 如果你使用的 & 字符是 HTML 字符实体的一部分，它会保留原状，否则它会被转换成 &amp;。
 
----
 所以你如果要在文档中插入一个版权符号 &copy;
 
 ``` bash
 &copy;
 ```
 
----
 所以你如果要在文档中插入 AT&T
 
 ``` bash
-AT&amp;T
+AT&T
+```
+
+你相输入`<span>`、`<cite>`、`<del>`
+``` bash
+`<span>`、`<cite>`、`<del>`
+```
+
+你相输入&lt;span&gt;、&lt;cite&gt;、&lt;del&gt;
+``` bash
+`<span>`、`<cite>`、`<del>`
+```
+
+你相输入 <del>删除</del>
+``` bash
+<del>删除</del>
 ```
