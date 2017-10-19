@@ -175,10 +175,10 @@ AT&T
 
 你相输入&lt;span&gt;、&lt;cite&gt;、&lt;del&gt;
 ``` bash
-`<span>`、`<cite>`、`<del>`
+&lt;span&gt;、&lt;cite&gt;、&lt;del&gt;
 ```
 
-你相输入 <del>删除</del>
+你相输入 <del>删除文字</del>
 ``` bash
-<del>删除</del>
+<del>删除文字</del>
 ```
