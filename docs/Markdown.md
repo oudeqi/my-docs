@@ -182,3 +182,10 @@ AT&T
 ``` bash
 <del>删除文字</del>
 ```
+<pre>
+	<ul>
+		<li>列表1</li>
+		<li>列表2</li>
+		<li>列表3</li>
+	</ul>
+</pre>
