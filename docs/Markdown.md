@@ -182,10 +182,13 @@ AT&T
 ``` bash
 <del>删除文字</del>
 ```
+
+`<pre>`被解析了
 <pre>
-	<ul>
-		<li>列表1</li>
-		<li>列表2</li>
-		<li>列表3</li>
-	</ul>
+	<del>删除文字</del>
 </pre>
+``` bash
+<pre>
+	<del>删除文字</del>
+</pre>
+```
