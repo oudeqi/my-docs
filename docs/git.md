@@ -22,32 +22,34 @@ $ git remote add origin git@github.com:oudeqi/my-docs.git
 
 ## 检测是否生成过 SSH key
 ``` bash
-cd ~/.ssh
+$ cd ~/.ssh
 // 如果返回 No such file or directory 说明没有生成过，否则说明之前已经生成过
 ```
 
 ## 查看 SSH key
 ``` bash
-ls -al ~/.ssh
+$ ls -al ~/.ssh
 // 应该会得到 id_rsa 和 id_rsa.pub两个文件，默认情况下公钥的文件名是id_rsa.pub
 ```
 
 ## 生成新的SSH key
 ``` bash
-ssh-keygen -t rsa -C "496997374@qq.com"
+$ ssh-keygen -t rsa -C "496997374@qq.com"
 ```
 
 ## 找到文件所生成的地方
 ``` bash
-~/.ssh
+$ ~/.ssh
 ```
+会得到 `bash: /c/Users/49699/.ssh: Is a directory`  
+
 1. `cd ~/.ssh` 然后 `ls`，或者手动打开文件资源管理器
 2. id_rsa.pub 文件里存放的就是要使用的key
 3. 打开后ctrl+A 全选，复制key到github的里面settings里面
 
 ## 测试是否配置成功
 ``` bash
-ssh -T git@github.com
+$ ssh -T git@github.com
 ```
 ## 配置成功标志
 ``` bash
