@@ -1,3 +1,20 @@
+# windows如何查看端口
+显示所有的端口占用
+``` bash
+netstat -ano
+```
+查询指定的端口占用，回车之后就可以看见列表中的PID，然后根据PID在电脑的任务管理器中查看对应的占用程序，接着进行关闭即可
+``` bash
+netstat -aon|findstr "端口号"
+```
+查询PID对应的进行进程（程序名）
+``` bash
+tasklist|findstr "PID"
+```
+根据程序名称，杀死进程，如：taskkill /f /t /im node.exe
+``` bash
+taskkill /f /t /im 程序名
+```
 
 # 移动端自带滚动条的平滑滚动
 ``` bash
@@ -36,6 +53,69 @@ var _throttle = function(action, delay){
     }
 }
 ```
+
+# 对象的合并
+``` bash
+Object.assign({}, getJsEntry('./app/pages/**/*.js'), {
+    common: './app/assets/styles/common.css',
+    vendor: ['jquery', 'bootstrap', 'bootstrap/dist/css/bootstrap.css']
+})
+```
+
+# 扩展运算符合并数组
+``` bash
+[
+    new CleanWebpackPlugin(['dist']),
+    new webpack.DefinePlugin({
+        'process.env': {
+            'NODE_ENV': JSON.stringify(NODE_ENV)
+        }
+    }),
+    new webpack.optimize.CommonsChunkPlugin({
+        name: ['vendor'],
+        minChunks: Infinity,
+        filename: 'assets/scripts/[name].[chunkhash:8].js',
+    }),
+    new webpack.optimize.CommonsChunkPlugin({
+        name: 'manifest',
+        minChunks: Infinity
+    }),
+    new ExtractTextPlugin({
+        filename: 'assets/styles/[name].[contenthash:8].css',
+        allChunks: false
+    }),
+    ...getHtmlEntry('./app/pages/**/*.html').map((item, index) => {
+        return new HtmlWebpackPlugin(item)
+    })
+]
+```
+
+# 不要使用浏览器嗅探，尽量使用特性检测和特性模拟
+1. 利用特征监测来推测IE的的版本号非常好用，也可利用IE的一些特有对象来识别IE所有系列
+2. 可见，没必要再对userAgent耿耿于怀，字符串可以随意伪造，但是浏览器的相关特性却是不会改变，所以还是宁愿花几毫秒来测试一番，而不用提心吊胆的根据字符串随意猜测相关特性。
+> 利用特征监测来推测IE的的版本号非常好用，也可利用IE的一些特有对象来识别IE所有系列
+``` bash
+'VBArray' in window // true
+'ActiveXObject' in window //true
+if(isIE){
+    if(document.documentMode == 11){
+        isIE11 = true;  
+    }else if('WebSocket' in window){
+        isIE10 = true;    
+    }else if('HTMLElement' in window){
+        isIE9 = true;
+    }else if('localStorage' in window){
+        isIE8 = true;
+    } else if('minHeight' in div.currentStyle){
+        isIE7 = true;
+    } else{
+        isIE6 = true;
+        document.execCommad('backgroundimagecache',false,false); //IE6并不会对背景图片进行缓存，故进行修补
+    }
+}
+```
+
+
 
 # 汉字两端对齐效果
 ``` bash
