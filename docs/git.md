@@ -1,10 +1,13 @@
 # 整理 git
 > Git是一款免费、开源的分布式版本控制系统，用于敏捷高效地处理任何或小或大的项目。
 
+------------------------------------------------------------------------------
+
 ## 初始化仓库
 ``` bash
 $ git init
 ```
+
 ## 查看远程仓库
 ``` bash
 $ git remote -v
@@ -13,6 +16,26 @@ $ git remote -v
 ## 关联远程仓库
 ``` bash
 $ git remote add origin git@github.com:oudeqi/my-docs.git
+```
+## 查看变化
+``` bash
+$ git status
+```
+
+## 提交修改
+``` bash
+$ git add .
+$ git commit -m "注释"
+```
+
+## 拉取远程资源
+``` bash
+$ git pull origin master
+```
+
+## 上传到远程仓库
+``` bash
+$ git push origin master
 ```
 
 ------------------------------------------------------------------------------
