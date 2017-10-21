@@ -1,6 +1,6 @@
 # 获取url参数
 ``` bash
-/*正则方式获取*/
+// 正则方式获取
 function getQueryString(name) {
     let reg = new RegExp('(^|&)' + name + '=([^&]*)(&|$)', 'i'),
         r = window.location.search.substr(1).match(reg);
@@ -11,7 +11,7 @@ function getQueryString(name) {
 }
 ```
 ``` bash
-/*split拆分法*/
+<!-- split拆分法 -->
 function getRequest() {
     let url = location.search,
         theRequest = new Object();
