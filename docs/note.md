@@ -1,3 +1,33 @@
+# 获取url参数
+正则方式获取
+``` bash
+function getQueryString(name) {
+    let reg = new RegExp('(^|&)' + name + '=([^&]*)(&|$)', 'i'),
+        r = window.location.search.substr(1).match(reg);
+    if (r != null) {
+        return decodeURIComponent(r[2]);
+    }
+    return null;
+}
+```
+`split`拆分法
+``` bash
+function getRequest() {
+    let url = location.search,
+        theRequest = new Object();
+    if (url.indexOf('?') !== -1) {
+        let str = url.substr(1),
+            strs = str.split('&');
+        for(let i = 0; i < strs.length; i ++) {
+            theRequest[strs[i].split('=')[0]] = decodeURIComponent(strs[i].split('=')[1]);
+        }
+    }
+    return theRequest;
+}
+```
+
+
+
 # windows如何查看端口
 显示所有的端口占用
 ``` bash
