@@ -1,3 +1,142 @@
+# 页面是否滚动到底部或者顶部
+``` bash
+function BottomJumpPage() {  
+    var scrollTop = $(this).scrollTop();  
+    var scrollHeight = $(document).height();  
+    var windowHeight = $(this).height();  
+    if (scrollTop + windowHeight == scrollHeight) {  //滚动到底部执行事件  
+            console.dir("我到底部了");
+            //console.dir()可以显示一个对象所有的属性和方法
+    }  
+    if (scrollTop == 0) {  //滚动到头部部执行事件  
+        console.log("我到头部了");
+    }  
+ }  
+
+ $(window).scroll(BottomJumpPage); 
+```
+
+# 单纯判断滚动条方向
+``` bash
+function scroll( fn ) {  
+    var beforeScrollTop = document.body.scrollTop,  
+        fn = fn || function() {};  
+    window.addEventListener("scroll", function() {  
+        var afterScrollTop = document.body.scrollTop,  
+            delta = afterScrollTop - beforeScrollTop;  
+        if( delta === 0 ) return false;  
+        fn( delta > 0 ? "down" : "up" );  
+        beforeScrollTop = afterScrollTop;  
+    }, false);  
+} 
+
+scroll(function(direction) {
+    console.log(direction);
+    $('.xx').text(direction);
+});  
+// 手机苹果浏览器事件会跳动
+```
+
+# 判断滚动条方向代码改进
+``` bash
+function scrollDirect(fn) {  
+    var beforeScrollTop = document.body.scrollTop;  
+    fn = fn || function () {};  
+    window.addEventListener("scroll", function (event) {  
+        event = event || window.event;  
+        var afterScrollTop = document.body.scrollTop;  
+        var delta = afterScrollTop - beforeScrollTop;  
+        beforeScrollTop = afterScrollTop;  
+        var scrollTop = $(this).scrollTop();  
+        var scrollHeight = $(document).height();  
+        var windowHeight = $(this).height();  
+        if (scrollTop + windowHeight > scrollHeight - 10) {  //滚动到底部执行事件  
+            fn('up');  
+            return;  
+        }  
+        if (afterScrollTop < 10 || afterScrollTop > $(document.body).height - 10) {  
+            fn('up');  
+        } else {  
+            if (Math.abs(delta) < 10) {  
+                return false;  
+            }  
+            fn(delta > 0 ? "down" : "up");  
+        }  
+    }, false);
+}  
+//调用
+var upflag=1;  
+var downflag= 1;  
+//scroll滑动,上滑和下滑只执行一次！  
+scrollDirect(function (direction) {  
+       if (direction == "down") {  
+           if (downflag) {  
+               // $(".footer_wrap").slideUp(200);  
+               $('.xx').text(direction);
+                downflag = 0;  
+                upflag = 1;  
+           }  
+       }  
+       if (direction == "up") {  
+           if (upflag) {  
+               // $(".footer_wrap").slideDown(200); 
+               $('.xx').text(direction); 
+                downflag = 1;  
+                upflag = 0;  
+           }  
+       }  
+});  
+```
+
+# 判断鼠标的滚动方向
+``` bash
+var scrollFunc = function (e) {
+    var direct = 0;
+    e = e || window.event;
+    if (e.wheelDelta) {  //判断浏览器IE，谷歌滑轮事件             
+        if (e.wheelDelta > 0) { //当滑轮向上滚动时
+            console.log('↑');
+        }
+        if (e.wheelDelta < 0) { //当滑轮向下滚动时
+            console.log('↓');
+        }
+    } else if (e.detail) {  //Firefox滑轮事件
+        if (e.detail> 0) { //当滑轮向上滚动时
+            console.log('↑');
+        }
+        if (e.detail< 0) { //当滑轮向下滚动时
+            console.log('↓');
+        }
+    }
+    // ScrollText(direct);
+}
+//给页面绑定滑轮滚动事件
+if (document.addEventListener) {
+    document.addEventListener('DOMMouseScroll', scrollFunc, false);
+}
+//滚动滑轮触发scrollFunc方法
+window.onmousewheel = document.onmousewheel = scrollFunc;
+```
+
+# 根据屏幕宽度等比设置字体大小
+``` bash
+(function(win,doc){
+    var docEl = document.documentElement,
+        resizeEvt = 'orientationchange' in win ? 'orientationchange' : 'resize',
+        recalc = function() {
+            if(docEl.clientWidth > 750){
+                docEl.style.fontSize = (750 * 14 / 375) + 'px';
+            }else if(docEl.clientWidth <= 320){
+                docEl.style.fontSize = (320 * 14 / 375) + 'px';
+            }else{
+                docEl.style.fontSize = (docEl.clientWidth * 14 / 375) + 'px';
+            }
+        };
+    win.addEventListener(resizeEvt, recalc, false);
+    doc.addEventListener('DOMContentLoaded', recalc, false);
+})(window,document);
+```
+
 # 判断设备终端
 ``` bash
 const browser = {

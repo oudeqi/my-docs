@@ -6,8 +6,8 @@ const CleanWebpackPlugin = require('clean-webpack-plugin');
 
 module.exports = function(env, argv){
 
-    let PUBLIC_PATH = env.PUBLIC_PATH || '/';
-    let NODE_ENV = process.env.NODE_ENV.trim();
+    let PUBLIC_PATH = env.PUBLIC_PATH;
+    let NODE_ENV = process.env.NODE_ENV;
     /*
         使用 “set NODE_ENV=production && webpack” 配置环境变量 "production " 后面有空格，仅能在win系统下面生效
         使用 “cross-env NODE_ENV=development webpack”配置环境变量 "production" 后面无空格，可以跨平台
@@ -43,7 +43,7 @@ module.exports = function(env, argv){
             },
             historyApiFallback: true,
             compress: true,//对资源启用 gzip 压缩
-            publicPath: PUBLIC_PATH,
+            publicPath: '/',
             inline: true,
             port: 4000,
             clientLogLevel: "none",//none, error, warning 或者 info（默认值）
@@ -73,7 +73,7 @@ module.exports = function(env, argv){
                     test: /\.css$/,
                     use: ExtractTextPlugin.extract({
                         fallback: "style-loader",
-                        publicPath: PUBLIC_PATH,
+                        publicPath: '../../',
                         use: [{
                             loader: "css-loader",
                             options: {
@@ -97,8 +97,6 @@ module.exports = function(env, argv){
                     loader: 'url-loader',
                     options: {
                         name: 'assets/images/[name].[hash:8].[ext]',
-                        // outputPath: '/assets/',
-                        publicPath: PUBLIC_PATH,
                         limit: 1024 * 3
                     }
                 },
@@ -130,7 +128,7 @@ module.exports = function(env, argv){
                     loader: 'file-loader',
                     options: {
                         name: 'assets/fonts/[name].[hash:8].[ext]',
-                        publicPath: PUBLIC_PATH,
+                        publicPath: '../../',
                     }
                 }
             ]
@@ -150,23 +148,23 @@ module.exports = function(env, argv){
                 $: 'jquery',
                 jQuery: 'jquery'
             }),
-            new webpack.optimize.UglifyJsPlugin({//prod
+            new webpack.optimize.UglifyJsPlugin({//prod 这个插件需要替换
                 // sourceMap: true,
                 compress: {
                     // warnings: true,
                     drop_console: false,
                 }
             }),
-            new webpack.optimize.CommonsChunkPlugin({//prod
+            new webpack.optimize.CommonsChunkPlugin({
                 name: ['vendor'],
                 minChunks: Infinity,
                 filename: 'assets/scripts/[name].[chunkhash:8].js',
             }),
-            new webpack.optimize.CommonsChunkPlugin({//prod
+            new webpack.optimize.CommonsChunkPlugin({
                 name: 'manifest',
                 minChunks: Infinity
             }),
-            new ExtractTextPlugin({//prod
+            new ExtractTextPlugin({
                 filename: 'assets/styles/[name].[contenthash:8].css',
                 allChunks: false
             }),
