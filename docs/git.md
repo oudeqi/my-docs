@@ -38,6 +38,46 @@ $ git pull origin master
 $ git push origin master
 ```
 
+## 查看远程分支
+``` bash
+$ git branch -a 
+```
+
+## 查看本地分支
+``` bash
+$ git branch 
+```
+
+## 创建分支
+``` bash
+$ git branch dev
+```
+
+## 把分支推到远程分支
+``` bash
+$ git push origin dev
+```
+
+## 切换到分支
+``` bash
+$ git checkout dev
+```
+
+## 删除本地分支
+``` bash
+$ git branch -d dev
+```
+
+## 查看远端库的分支情况
+``` bash
+$ git branch -r
+```
+
+## 建新的分支,并切换到该分支
+``` bash
+$ git checkout -b dev
+```
+
 ------------------------------------------------------------------------------
 
 ## 关于SSH
