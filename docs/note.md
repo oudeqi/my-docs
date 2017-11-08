@@ -4,6 +4,9 @@
 2. 开启定时器，计算速度
 3. 判断停止条件，执行运动
 
+<a href="http://blog.csdn.net/u011175410/article/details/50351667" target="_blank">文章链接</a>
+
+
 ``` bash
 /**  
    * getStyle 获取样式  
@@ -98,10 +101,16 @@ if (!window.requestAnimationFrame) {
         setTimeout(fn, 17);
     };  
 }
+/*
+ * t: current time（当前时间）；
+ * b: beginning value（初始值）；
+ * c: change in value（变化量）；
+ * d: duration（持续时间）。
+*/
+// 原理：只要给一个小于持续时间的值，动画算法（如：Tween.Linear）就会返回当前时间应该的坐标
 var t = 0, b = 0, c = 100, d = 10;
 var step = function () {
-    // value就是当前的位置值
-    // 例如我们可以设置DOM.style.left = value + 'px'实现定位
+    // value就是当前的位置值,例如我们可以设置DOM.style.left = value + 'px'实现定位
     var value = Tween.Linear(t, b, c, d);
     t++;
     if (t <= d) {
@@ -114,6 +123,7 @@ var step = function () {
 ```
 刹车缓动到顶部
 ``` bash
+// Math.animation(form, to, duration, easing, callback);
 Math.animation(document.documentElement.scrollTop, 0, function (value) {
     document.documentElement.scrollTop = value;
 }, 'Quart.easeOut', 600);
