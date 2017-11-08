@@ -2,6 +2,24 @@
 > Tween.js是一个包含各种经典动画算法的JS资源
 
 <a href="http://www.zhangxinxu.com/wordpress/2016/12/how-use-tween-js-animation-easing/" target="_blank">文章链接</a>
+<a href="https://github.com/zhangxinxu/Tween" target="_blank">github</a>  
+动算法:
+1. Linear：线性匀速运动效果；
+2. Quadratic：二次方的缓动（t^2）；
+3. Cubic：三次方的缓动（t^3）；
+4. Quartic：四次方的缓动（t^4）；
+5. Quintic：五次方的缓动（t^5）；
+6. Sinusoidal：正弦曲线的缓动（sin(t)）；
+7. Exponential：指数曲线的缓动（2^t）；
+8. Circular：圆形曲线的缓动（sqrt(1-t^2)）；
+9. Elastic：指数衰减的正弦曲线缓动；
+10. Back：超过范围的三次方缓动（(s+1)*t^3 – s*t^2）；
+11. Bounce：指数衰减的反弹缓动。  
+
+每个效果都分三个缓动方式，分别是：
+1. easeIn：从0开始加速的缓动，也就是先慢后快；
+2. easeOut：减速到0的缓动，也就是先快后慢；
+3. easeInOut：前半段从0开始加速，后半段减速到0的缓动。
 
 ``` bash
 // requestAnimationFrame的兼容处理
