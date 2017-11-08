@@ -1,7 +1,7 @@
 # 如何使用Tween.js各类原生动画运动缓动算法
 > Tween.js是一个包含各种经典动画算法的JS资源
 
-<a href="http://www.zhangxinxu.com/wordpress/2016/12/how-use-tween-js-animation-easing/" target="_blank">文章链接</a>
+<a href="http://www.zhangxinxu.com/wordpress/2016/12/how-use-tween-js-animation-easing/" target="_blank">文章链接</a>、
 <a href="https://github.com/zhangxinxu/Tween" target="_blank">github</a>  
 动算法:
 1. Linear：线性匀速运动效果；
@@ -53,7 +53,9 @@ Math.animation(document.documentElement.scrollTop, 0, function (value) {
 > 解决过度绘制的问题，动画不会掉帧，自然流畅  
 
 <a href="http://www.zhangxinxu.com/wordpress/2013/09/css3-animation-requestanimationframe-tween-动画算法/" target="_blank">文章链接</a>
+
 ``` bash
+// 兼容处理 requestAnimationFrame
 (function() {
     var lastTime = 0;
     var vendors = ['webkit', 'moz'];
