@@ -1,3 +1,73 @@
+# 完美运动框架
+
+1. 先清除定时器
+2. 开启定时器，计算速度
+3. 判断停止条件，执行运动
+
+``` bash
+/**  
+   * getStyle 获取样式  
+   * startMove 运动主程序  
+*/                    
+function getStyle(obj, attr){    
+    if(obj.currentStyle){    
+        return obj.currentStyle[attr]; //for ie   
+    }else{    
+        return getComputedStyle(obj, false)[attr];  // for ff  
+    }    
+ }    
+function Move(obj,json,fn){ 
+    //停止上一次定时器    
+    clearInterval(obj.timer); //关闭前一个定时器，解决对同个对象同时调用多个Move()时，定时器叠加问题。使用obj.timer给每个调用Move()的对象赋予各自的定时器，防止多个对象同时调用Move()时，同用一个定时器，而导致相关干扰问题。   
+    //保存每一个物体运动的定时器    
+    obj.timer = setInterval(function(){  
+        //判断同时运动标志    
+        var bStop = true;    
+        for(var attr in json){    
+            //取当前值      
+            var iCur = 0;  //创建一个变量，用于存储 attr属性每时每刻的值  
+            if(attr == 'opacity'){   
+                //针对在FF中opacity属性值为浮点数值问题，将属性值 四舍五入、转换成浮点型。乘以100，使opacity属性值与IE统一为百分数  
+                iCur = Math.round(parseFloat(getStyle(obj, attr))*100);    
+            }else{    
+                iCur = parseInt(getStyle(obj,attr)); //将除opacity外的属性(width/fontSize/MarginLeft等)的初始值 转换为整型   
+            }    
+            //计算速度    
+            var iSpeed = (json[attr] - iCur) / 8;  //创建 递减的速度speed变量。实现属性值的变速改变  
+            iSpeed = iSpeed > 0 ? Math.ceil(iSpeed) : Math.floor(iSpeed);  //取整，解决浏览器忽略小于1px的数值 导致运动结束时，离目标值Itarget少几个像素的问题  
+            //检测同时到达标志    
+            if(iCur != json[attr]){    
+                bStop = false;    
+            }       
+            //更改属性，获取动画效果    
+            if(attr=='opacity'){    
+                iCur += iSpeed    
+                obj.style.filter='alpha(opacity:' + iCur + ')';    
+                obj.style.opacity=iCur / 100;    
+            }else{    
+                obj.style[attr]=iCur+iSpeed+'px';    
+            }    
+        }    
+        //检测停止    
+        if(bStop){    
+            clearInterval(obj.timer);    
+            if(fn) fn();    
+        }
+    },30)    
+} 
+```
+1. 连续点击按钮，物体会运动越来越快。因为每点击一次，就开了一个定时器
+2. 分离停止条件,主要是根据目标判断速度的正负。从而在鼠标滑入画出时候进行运动/恢复的效果
+3. 改变物体的透明度，由于没有像原生的位置属性那样的offsetLset 需要一个变量来保存透明度的值，用来和速度加减，最后付给元素的透明度样式
+4. 缓冲运动原理就是，改变速度的值。每次累加的速度值变小，就是会是整个物体看起来越来越慢，以至于最后停掉
+5. 但凡用到缓冲运动，一定要用到向上/向下取整
+6. 处理多物体运动，运动函数里面每次都要选取一个元素加事件。如果需要对多个物体进行同样的运动， 需要将运动对象作为参数传进来
+7. 将定时器，变成物体的属性，类似给物体添加索引
+8. offsetWidth 或者 offsetHeight 等位置属性，一旦给他们加上 border。则会有诡异的现象出现。解决的方案就是，加减的时候，必须使用物体的内联样式
+9. 链式运动,传入回调函数
+10. 不能同时该两个属性进行运动，比如同时更改宽和高。这个要求传入的属性是不同的几个值。则考虑传入一个 json用来保存需要更改的属性
+11. 同时运动的某个属性，如果变化很小，马上就停止了，即关掉了定时器。那么会造成其他属性的变化也停止。因为这些属性都共用了一个定时器。一开始，设立一个检查量，为真。假设所有人都到了，然后循环，只有有一个人没有到，检查就为假。直到所有的都到了，检测为真。则停止定时器
+
 # 如何使用Tween.js各类原生动画运动缓动算法
 > Tween.js是一个包含各种经典动画算法的JS资源
 
