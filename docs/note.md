@@ -1,6 +1,40 @@
+# 如何使用Tween.js各类原生动画运动缓动算法
+> Tween.js是一个包含各种经典动画算法的JS资源
+
+<a href="http://www.zhangxinxu.com/wordpress/2016/12/how-use-tween-js-animation-easing/" target="_blank">文章链接</a>
+
+``` bash
+// requestAnimationFrame的兼容处理
+if (!window.requestAnimationFrame) {
+    requestAnimationFrame = function(fn) {
+        setTimeout(fn, 17);
+    };  
+}
+var t = 0, b = 0, c = 100, d = 10;
+var step = function () {
+    // value就是当前的位置值
+    // 例如我们可以设置DOM.style.left = value + 'px'实现定位
+    var value = Tween.Linear(t, b, c, d);
+    t++;
+    if (t <= d) {
+         // 继续运动
+         requestAnimationFrame(step);
+    } else {
+        // 动画结束
+    }
+};
+```
+刹车缓动到顶部
+``` bash
+Math.animation(document.documentElement.scrollTop, 0, function (value) {
+    document.documentElement.scrollTop = value;
+}, 'Quart.easeOut', 600);
+```
+
 # requestAnimationFrame
 > 解决过度绘制的问题，动画不会掉帧，自然流畅  
-<a href="http://www.zhangxinxu.com/wordpress/2013/09/css3-animation-requestanimationframe-tween-动画算法/">文章链接</a>
+
+<a href="http://www.zhangxinxu.com/wordpress/2013/09/css3-animation-requestanimationframe-tween-动画算法/" target="_blank">文章链接</a>
 ``` bash
 (function() {
     var lastTime = 0;
