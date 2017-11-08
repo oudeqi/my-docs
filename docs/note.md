@@ -1,12 +1,46 @@
-# 完美运动框架
+# 子元素scroll父元素容器不跟随滚动JS实现
 
+<a href="http://www.zhangxinxu.com/wordpress/2015/12/element-scroll-prevent-parent-element-scroll-js/">原文链接1</a>，
+<a href="http://blog.csdn.net/duola8789/article/details/73505809">原文链接2</a>
+``` bash
+$.fn.scrollUnique = function() {
+    return $(this).each(function() {
+        var eventType = 'mousewheel';
+        if (document.mozHidden !== undefined) {
+            eventType = 'DOMMouseScroll';
+        }
+        $(this).on(eventType, function(event) {
+            // 一些数据
+            var scrollTop = this.scrollTop,
+                scrollHeight = this.scrollHeight,
+                height = this.clientHeight;
+
+            var delta = (event.originalEvent.wheelDelta) ? event.originalEvent.wheelDelta : -(event.originalEvent.detail || 0);        
+
+            if ((delta > 0 && scrollTop <= delta) || (delta < 0 && scrollHeight - height - scrollTop <= -1 * delta)) {
+                // IE浏览器下滚动会跨越边界直接影响父级滚动，因此，临界时候手动边界滚动定位
+                this.scrollTop = delta > 0? 0: scrollHeight;
+                // 向上滚 || 向下滚
+                event.preventDefault();
+            }        
+        });
+    }); 
+};
+$('#test').scrollUnique();
+```
+
+
+# 几种控制DIV内容滚动的方法
+1. 使用锚标记要滚动到的位置，然后通过click方法模拟点击滚动到锚所在位置
+2. document.getElementById("nn").scrollIntoView(true)
+3. div.scrollTop = div.scrollHeight;
+4. 利用DIV+JS+图片构造一个滚动条,外层的DIV加个overflow:hidden属性，通过js代码调整内层DIV的margin-left和margin-top来控制内容的滚动
+
+# 完美运动框架
 1. 先清除定时器
 2. 开启定时器，计算速度
 3. 判断停止条件，执行运动
-
 <a href="http://blog.csdn.net/u011175410/article/details/50351667" target="_blank">文章链接</a>
-
-
 ``` bash
 /**  
    * getStyle 获取样式  
