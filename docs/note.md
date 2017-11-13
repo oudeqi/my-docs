@@ -1,3 +1,168 @@
+# 对象深拷贝
+``` bash
+function getType(obj){
+    //tostring会返回对应不同的标签的构造函数
+    var toString = Object.prototype.toString;
+    var map = {
+        '[object Boolean]'  : 'boolean', 
+        '[object Number]'   : 'number', 
+        '[object String]'   : 'string', 
+        '[object Function]' : 'function', 
+        '[object Array]'    : 'array', 
+        '[object Date]'     : 'date', 
+        '[object RegExp]'   : 'regExp', 
+        '[object Undefined]': 'undefined',
+        '[object Null]'     : 'null', 
+        '[object Object]'   : 'object'
+    };
+    if(obj instanceof Element) {
+        return 'element';
+    }
+    return map[toString.call(obj)];
+}
+```
+使用递归来进行深拷贝  
+``` bash
+function deepClone(data){
+    var type = getType(data);
+    var obj;
+    if(type === 'array'){
+        obj = [];
+    } else if(type === 'object'){
+        obj = {};
+    } else {
+        //不再具有下一层次
+        return data;
+    }
+    if(type === 'array'){
+        for(var i = 0, len = data.length; i < len; i++){
+            obj.push(deepClone(data[i]));
+        }
+    } else if(type === 'object'){
+        for(var key in data){
+            obj[key] = deepClone(data[key]);
+        }
+    }
+    return obj; 
+}
+```
+使用树的广度优先遍历来实现  
+``` bash
+//这里为了阅读方便，只深拷贝对象，关于数组的判断参照上面的例子
+function deepClone(data){
+    var obj = {};
+    var originQueue = [data];
+    var copyQueue = [obj];
+    //以下两个队列用来保存复制过程中访问过的对象，以此来避免对象环的问题（对象的某个属性值是对象本身）
+    var visitQueue = [];
+    var copyVisitQueue = [];
+    while(originQueue.length > 0){
+        var _data = originQueue.shift();
+        var _obj = copyQueue.shift();
+        visitQueue.push(_data);
+        copyVisitQueue.push(_obj);
+        for(var key in _data){
+            var _value = _data[key]
+            if(typeof _value !== 'object'){
+                _obj[key] = _value;
+            } else {
+                //使用indexOf可以发现数组中是否存在相同的对象(实现indexOf的难点就在于对象比较)
+                var index = visitQueue.indexOf(_value);
+                if(index >= 0){
+                    _obj[key] = copyVisitQueue[index];
+                }
+                originQueue.push(_value);
+                _obj[key] = {};
+                copyQueue.push(_obj[key]);
+            }
+        }
+    }
+    return obj;
+}
+```
+``` bash
+var cloneObj = function(obj){
+    var newobj = obj.constructor === Array ? [] : {};
+    if(typeof obj !== 'object'){
+        return;
+    } else if(window.JSON){
+        newobj = JSON.parse(JSON.stringify(obj));
+        // 会抛弃原对象的constructor,在深复制之后会变成Object
+        // 诸如RegExp对象是无法通过这种方式深复制的
+    } else {
+        for(var i in obj){
+            newobj[i] = typeof obj[i] === 'object' ? 
+            cloneObj(obj[i]) : obj[i]; 
+        }
+    }
+    return newobj;
+};
+```
+<a href="https://github.com/zry656565/JustJS" target="_blank">github</a>，
+<a href="https://segmentfault.com/a/1190000000501320" target="_blank">原文链接</a>
+``` bash
+Object.prototype.clone = function () {
+    var Constructor = this.constructor;
+    var obj = new Constructor();
+    for (var attr in this) {
+        if (this.hasOwnProperty(attr)) {
+            if (typeof(this[attr]) !== "function") {
+                if (this[attr] === null) {
+                    obj[attr] = null;
+                } else {
+                    obj[attr] = this[attr].clone();
+                }
+            }
+        }
+    }
+    return obj;
+};
+Array.prototype.clone = function () {
+    var thisArr = this.valueOf();
+    var newArr = [];
+    for (var i=0; i<thisArr.length; i++) {
+        newArr.push(thisArr[i].clone());
+    }
+    return newArr;
+};
+Boolean.prototype.clone = function() { return this.valueOf(); };
+Number.prototype.clone = function() { return this.valueOf(); };
+String.prototype.clone = function() { return this.valueOf(); };
+Date.prototype.clone = function() { return new Date(this.valueOf()); };
+RegExp.prototype.clone = function() {
+    var pattern = this.valueOf();
+    var flags = '';
+    flags += pattern.global ? 'g' : '';
+    flags += pattern.ignoreCase ? 'i' : '';
+    flags += pattern.multiline ? 'm' : '';
+    return new RegExp(pattern.source, flags);
+};
+```
+
+# 判断对象类型
+``` bash
+function getType(obj){
+    //tostring会返回对应不同的标签的构造函数
+    var toString = Object.prototype.toString;
+    var map = {
+        '[object Boolean]'  : 'boolean', 
+        '[object Number]'   : 'number', 
+        '[object String]'   : 'string', 
+        '[object Function]' : 'function', 
+        '[object Array]'    : 'array', 
+        '[object Date]'     : 'date', 
+        '[object RegExp]'   : 'regExp', 
+        '[object Undefined]': 'undefined',
+        '[object Null]'     : 'null', 
+        '[object Object]'   : 'object'
+    };
+    if(obj instanceof Element) {
+        return 'element';
+    }
+    return map[toString.call(obj)];
+}
+```
+
 # 子元素scroll父元素容器不跟随滚动JS实现
 
 <a href="http://www.zhangxinxu.com/wordpress/2015/12/element-scroll-prevent-parent-element-scroll-js/">原文链接1</a>，
