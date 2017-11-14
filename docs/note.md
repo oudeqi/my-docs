@@ -1,3 +1,11 @@
+# 让页面字体变平滑
+``` bash
+body {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+```
+
 # 对象深拷贝
 ``` bash
 function getType(obj){
