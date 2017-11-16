@@ -43,8 +43,7 @@ const array = [
     },
 ];
 const newArray = [...array];
-console.log(newArray);
-// ["a", "c", "d", { four: 4 }]
+console.log(newArray); // ["a", "c", "d", { four: 4 }]
 // 浅拷贝
 
 let obj = {
@@ -52,7 +51,7 @@ let obj = {
     two: 2,
 }
 let newObj = { ...z };
-// { one: 1, two: 2 }
+console.log(newObj); // { one: 1, two: 2 }
 // 浅拷贝
 
 ```
