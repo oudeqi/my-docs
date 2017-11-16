@@ -1,3 +1,62 @@
+# 浅拷贝对象
+> 赋值运算符不会创建一个对象的副本，它只分配一个引用。
+> 复制对象的原始方法是循环遍历原始对象，然后一个接一个地复制每个属性。
+> 浅层复制将复制顶级属性，但是*嵌套对象*将在*原始对象*和*副本对象*之间是共享。
+
+``` bash 
+let obj = {
+    a: 1,
+    b: 2,
+};
+let objCopy = Object.assign({}, obj);
+console.log(objCopy); // result - { a: 1, b: 2 }
+objCopy.b = 89;
+console.log(objCopy); // result - { a: 1, b: 89 }
+console.log(obj); // result - { a: 1, b: 2 }
+// 浅拷贝，副本和原始对象共享对象类型的属性
+// 可以用于复制对象的方法
+// 适用于浅拷贝循环引用对象（自身属性引用自身属性）
+```
+
+``` bash
+let obj = { 
+    a: 1,
+    b: { 
+        c: 2,
+    },
+}
+let newObj = JSON.parse(JSON.stringify(obj));
+obj.b.c = 20;
+console.log(obj); // { a: 1, b: { c: 20 } }
+console.log(newObj); // { a: 1, b: { c: 2 } } (一个新的对象)
+// 深度拷贝对象
+// 不能用于复制对象方法
+// 复制循环引用对象会报错（自身属性引用自身属性）
+```
+
+``` bash
+const array = [
+    "a",
+    "c",
+    "d", {
+        four: 4
+    },
+];
+const newArray = [...array];
+console.log(newArray);
+// ["a", "c", "d", { four: 4 }]
+// 浅拷贝
+
+let obj = {
+    one: 1,
+    two: 2,
+}
+ 
+let newObj = { ...z };
+// { one: 1, two: 2 }
+// 浅拷贝
+```
+
 # 让页面字体变平滑
 ``` bash
 body {
