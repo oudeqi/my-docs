@@ -1,3 +1,39 @@
+# 自定义触摸事件
+``` bash
+app.directive('tap',function(){
+    return function(scope, elem, attrs){
+        var start,end,t,moved = false;
+        elem.bind('touchstart',function(e){
+            start = e.timeStamp;
+            moved = false;
+            elem.css({
+                "opacity":"0.7"
+            });
+        });
+        elem.bind('touchmove',function(e){
+            end = e.timeStamp;
+            t = end - start;
+            if(t>300){
+                e.preventDefault();
+            }
+            moved = true;
+        });
+        elem.bind('touchend',function(e){
+            elem.css({
+                "opacity":"1"
+            });
+            end = e.timeStamp;
+            t = end - start;
+            if(!moved && t>10 && t<300){
+                if(attrs.tap){
+                    scope.$apply(attrs.tap);
+                }
+            }
+        });
+    };
+});
+```
+
 # 浅拷贝对象
 > 赋值运算符不会创建一个对象的副本，它只分配一个引用。  
 > 复制对象的原始方法是循环遍历原始对象，然后一个接一个地复制每个属性。  
