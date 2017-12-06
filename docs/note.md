@@ -1,3 +1,15 @@
+# 不可能使用calc()转换在IE中的translateX
+``` bash
+// 谷歌、火狐上可以，ie不生效
+#myDiv {
+    transform: translateX(calc(100% - 50px));
+}
+// 兼容谷歌、火狐、ie
+#myDiv {
+    transform: translateX(100%) translateX(-50px);
+}
+```
+
 # 自定义触摸事件
 ``` bash
 app.directive('tap',function(){
