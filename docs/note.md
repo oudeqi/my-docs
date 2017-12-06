@@ -1,3 +1,10 @@
+# 360浏览器默认以极速模式打开网页
+``` bash
+<meta name="renderer" content="webkit"> //默认用极速核
+<meta name="renderer" content="ie-comp"> //默认用ie兼容内核
+<meta name="renderer" content="ie-stand"> //默认用ie标准内核
+```
+
 # 不可能使用calc()转换在IE中的translateX
 ``` bash
 // 谷歌、火狐上可以，ie不生效
