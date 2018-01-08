@@ -138,7 +138,192 @@ var arrayElements = Array.from(elements); // This is another way of converting N
 var list = [1,2,3];
 console.log(list.sort(function() { Math.random() - 0.5 })); // [2,1,3]
 ```
+--------------------------------------------------------------------
 
+## 变量转换
+``` bash
+// 使用构造函数，像Array()或者Number()来进行变量转换是常用的做法。
+// 始终使用原始数据类型（有时也称为字面量）来转换变量，这种没有任何额外的影响的做法反而效率更高。
+var myVar   = "3.14159",
+str     = ""+ myVar,//  to string
+int     = ~~myVar,  //  to integer
+float   = 1*myVar,  //  to float
+bool    = !!myVar,  /*  to boolean - any string with length and any number except 0 are true */
+array   = [myVar];  //  to array
+// 转换日期(new Date(myVar))和正则表达式(new RegExp(myVar))必须使用构造函数，
+// 而且创建正则表达式的时候要使用/pattern/flags的形式。
+```
+
+## 十进制转换为十六进制或者八进制，或者反过来
+``` bash
+// 你是不是写个单独的函数来转换十六进制（或者八进制）呢？马上停下吧！有更容易的现成的函数可以用：
+(int).toString(16); // converts int to hex, eg 12 => "C"
+(int).toString(8);  // converts int to octal, eg. 12 => "14"
+parseInt(string, 16) // converts hex to int, eg. "FF" => 255
+parseInt(string, 8) // converts octal to int, eg. "20" => 16
+```
+
+## 处理数字的技巧
+``` bash
+0xFF; // Hex declaration, returns 255
+020; // Octal declaration, returns 16
+1e3; // Exponential, same as 1 * Math.pow(10,3), returns 1000
+(1000).toExponential(); // Opposite with previous, returns 1e3
+(3.1415).toFixed(3); // Rounding the number, returns "3.142"
+```
+
+## Javascript版本检测
+``` bash
+// 你知道你的浏览器支持哪一个版本的Javascript吗？如果不知道的话，去维基百科查一下Javascript版本表吧。
+// 出于某种原因，Javascript 1.7版本的某些特性是没有得到广泛的支持。
+// 不过大部分浏览器都支持了1.8版和1.8.1版的特性。
+// 注：所有的IE浏览器（IE8或者更老的版本）只支持1.5版的Javascript这里有一个脚本，既能通过检测特征来检测JavaScript版本，它还能检查特定的Javascript版本所支持的特性。
+var JS_ver = [];
+(Number.prototype.toFixed) ? JS_ver.push("1.5") : false;
+([].indexOf && [].forEach) ? JS_ver.push("1.6") : false;
+((function(){
+	try {
+		[a,b] = [0,1];return true;
+	}catch(ex) {
+		return false;
+	}
+})()) ? JS_ver.push("1.7") : false;
+([].reduce && [].reduceRight && JSON) ? JS_ver.push("1.8") : false;
+("".trimLeft) ? JS_ver.push("1.8.1") : false;
+JS_ver.supports = function(){　　
+	if (arguments[0]){
+		return (!!~this.join().indexOf(arguments[0] +",") +",");
+	} else {
+		return (this[this.length-1]);
+	}　　　　
+}
+alert("Latest Javascript version supported: "+ JS_ver.supports());
+alert("Support for version 1.7 : "+ JS_ver.supports("1.7"));
+```
+
+## 使用window.name进行简单会话处理
+这个是我真的喜欢的东西。您可以为指定一个字符串作为window.name属性的值，直到您关闭该标签或窗口。虽然我没有提供任何脚本，但我强烈建议您如充分利用这个方法。举例来说，在建设一个网站或应用程序的时候，在调试和测试模式之间切换是非常有用的。
+
+## 判断属性是否存在
+``` bash
+// 这个问题包含两个方面，既有检查属性是否存在，还要获取属性的类型
+// BAD: This will cause an error in code when foo is undefined
+if (foo) {　　
+　  doSomething();
+}
+// GOOD: This doesn't cause any errors. However, even when
+// foo is set to NULL or false, the condition validates as true
+if (typeof foo != "undefined") {　　
+　　doSomething();
+}
+// BETTER: This doesn't cause any errors and in addition
+// values NULL or false won't validate as true
+if (window.foo) {　　  
+　 doSomething();
+}
+// 但是，有的情况下，我们有更深的结构和需要更合适的检查的时候，可以这样：
+// UGLY: we have to proof existence of every
+// object before we can be sure property actually exists
+if (window.oFoo && oFoo.oBar && oFoo.oBar.baz) {　　
+　　doSomething();
+}
+```
+
+## 给函数传递参数
+``` bash
+// 当函数既有必选又有可选参数的时候，我们可能是这样做的：
+function doSomething(arg0, arg1, arg2, arg3, arg4) {　　
+	... 
+}
+doSomething('', 'foo', 5, [], false);
+// 而传递一个对象总是比传递一堆的参数更方便：
+function doSomething() {　
+	// Leaves the function if nothing is passed　　
+	if (!arguments[0]) {　　
+		return false;　　
+	}　　
+	var oArgs   = arguments[0]　　
+		arg0    = oArgs.arg0 || "",　　
+		arg1    = oArgs.arg1 || "",　　
+		arg2    = oArgs.arg2 || 0,　　
+		arg3    = oArgs.arg3 || [],　　
+		arg4    = oArgs.arg4 || false;
+}
+doSomething({
+	arg1: "foo",　　
+	arg2: 5,　　
+	arg4: false
+});
+```
+
+## 使用document.createDocumentFragment()
+``` bash
+// 您可能需要动态地追加多个元素到文档中。
+// 然而，直接将它们插入到文档中会导致这个文档每次都需要重新布局一个，
+// 相反的，你应该使用文档碎片，建成后只追加一次：
+function createList() {
+	var aLI = ["first item", "second item", "third item", "fourth item", "fith item"];　　
+	// Creates the fragment　　
+	var oFrag = document.createDocumentFragment();　　
+	while (aLI.length) {　　　　
+	var oLI = document.createElement("li");　　　　
+		// Removes the first item from array and appends it　　　　
+		// as a text node to LI element　　　　
+		oLI.appendChild(document.createTextNode(aLI.shift()));
+		oFrag.appendChild(oLI);　　
+	}　　
+	document.getElementById('myUL').appendChild(oFrag);
+}
+```
+
+## 为replace()方法传递一个函数
+``` bash
+// 有的时候你想替换字符串的某个部分为其它的值，最好的方法就是给String.replace()传递一个独立的函数。下面是一个简单例子：
+var sFlop   = "Flop: [Ah] [Ks] [7c]";
+var aValues = {
+	"A":"Ace",
+	"K":"King",
+	7:"Seven"
+};
+var aSuits  = {
+	"h":"Hearts",
+	"s":"Spades",
+	"d":"Diamonds",
+	"c":"Clubs"
+};
+sFlop = sFlop.replace(/\[\w+\]/gi, function(match) {　　
+　　match = match.replace(match[2], aSuits[match[2]]);　　
+　　match = match.replace(match[1], aValues[match[1]] +" of ");
+	return match;
+});
+// string sFlop now contains:
+// "Flop: [Ace of Hearts] [King of Spades] [Seven of Clubs]"
+```
+
+## 循环中标签的使用
+``` bash
+// 有的时候，循环中又嵌套了循环，你可能想在循环中退出，则可以用标签：
+outerloop:
+for (var iI=0; iI<5; iI++) {
+    if (somethingIsTrue()) {　
+	    // Breaks the outer loop iteration　　
+	　　break outerloop;　　
+    }　　
+　　innerloop:　　
+    for (var iA=0;iA<5;iA++) {　　　
+		if (somethingElseIsTrue()) {　　　
+			// Breaks the inner loop iteration　　　　
+			break innerloop;　　
+		}　　
+	}
+}
+```
+
+
+
+
+
+---------------------------------------------------------------------
 ## 修改数组
 > 注意：当数组执行这些方法时，都会修改原数组
 1. `array.pop` - 删除数组最后一位元素。
@@ -345,6 +530,169 @@ for (let [index, elem] of ['a', 'b'].entries()) {
 [1, 2, 3].includes(2);     // true
 [1, 2, 3].includes(4);     // false
 [1, 2, NaN].includes(NaN); // true
+```
+
+## 数组去重
+``` bash
+// 方法1:利用数组的indexOf方法
+function unique (arr) {
+	var result = []; 
+	for (var i = 0; i < arr.length; i++){
+		if (result.indexOf(arr[i]) == -1) result.push(arr[i]);
+	}
+	return result;
+}
+// 方法2:利用hash表,可能会出现字符串和数字一样的话出错，
+// 如var a = [1, 2, 3, 4, '3', 5],会返回[1, 2, 3, 4, 5]
+function unique (arr){
+    var hash = {},result = []; 
+    for(var i = 0; i < arr.length; i++)
+    {
+        if (!hash[arr[i]]) 
+        {
+            hash[arr[i]] = true; 
+            result.push(arr[i]); 
+        }
+    }
+    return result;
+}
+// 方法3:排序后比较相邻，如果一样则放弃，否则加入到result。
+// 会出现与方法2一样的问题，如果数组中存在1,1,'1'这样的情况，则会排错
+function unique (arr) {
+    arr.sort();
+    var result=[arr[0]];
+    for(var i = 1; i < arr.length; i++){
+        if( arr[i] !== arr[i-1]) {
+            result.push(arr[i]);
+        }
+    }
+    return result;
+}
+// 方法4:最简单但是效率最低的算法,也不会出现方法2和方法3出现的bug
+function unique (arr) {
+    if(arr.length == 0) return;
+    var result = [arr[0]], isRepeate;
+    for( var i = 0, j = arr.length; i < j; i++ ){
+        isRepeate = false;
+        for( var k = 0, h = result.length; k < h; k++){
+            if(result[k] === arr[i]){
+                isRepeate = true;
+                break;
+            }
+            if(k == h) break;
+        }
+        if( !isRepeate ) result.push(arr[i]);
+    }
+    return result;
+}
+// 方法5:此方法充分利用了递归和indexOf方法
+var unique = function (arr, newArr) {
+     var num;
+     if (-1 == arr.indexOf(num = arr.shift())) newArr.push(num);
+     arr.length && unique(arr, newArr);
+}
+```
+
+## 数组顺序扰乱
+``` bash
+// 方法1:每次随机抽一个数并移动到新数组中
+function shuffle(array) {
+    var copy = [],
+        n = array.length,
+        i;
+    // 如果还剩有元素则继续。。。
+    while (n) {
+        // 随机抽取一个元素
+        i = Math.floor(Math.random() * array.length);
+        // 如果这个元素之前没有被选中过。。
+        if (i in array) {
+            copy.push(array[i]);
+            delete array[i];
+            n--;
+        }
+    }
+}
+// 方法2:跟方法1类似，只不过通过splice来去掉原数组已选项
+function shuffle(array) {
+    var copy = [],
+        n = array.length,
+        i;
+    // 如果还剩有元素。。
+    while (n) {
+        // 随机选取一个元素
+        i = Math.floor(Math.random() * n--);
+        // 移动到新数组中
+        copy.push(array.splice(i, 1)[0]);
+    }
+    return copy;
+}
+// 方法3:前面随机抽数依次跟末尾的数交换，后面依次前移，
+// 即：第一次前n个数随机抽一个跟第n个交换，第二次前n-1个数跟第n-1个交换，依次类推。
+function shuffle(array) {
+    var m = array.length,
+        t, i;
+    // 如果还剩有元素…
+    while (m) {
+        // 随机选取一个元素…
+        i = Math.floor(Math.random() * m--);
+        // 与当前元素进行交换
+        t = array[m];
+        array[m] = array[i];
+        array[i] = t;
+    }
+    return array;
+}
+```
+
+## 数组判断
+``` bash
+// 方法1：自带的isArray方法
+var array6 = [];
+Array.isArray(array6 );//true
+
+// 方法2：利用instanceof运算符
+var array5 = [];
+array5 instanceof Array;//true
+
+// 方法3：利用toString的返回值
+function isArray(o) {
+	return Object.prototype.toString.call(o) === '[object Array]';
+}
+```
+
+## 数组求交集
+``` bash
+// 利用filter和数组自带的indexOf方法
+array1.filter(function(n) {
+	return array2.indexOf(n) != -1;
+});
+```
+
+## 数组求并集
+``` bash
+// 方法原理：连接两个数组并去重
+function arrayUnique(array) {
+	var a = array.concat();
+
+	for(var i=0; i<a.length; ++i) {
+
+		for(var j=i+1; j<a.length; ++j) {
+			if(a[i] === a[j])
+				a.splice(j--, 1);
+		}
+	}
+	return a;
+}
+```
+
+## 数组求差集
+``` bash
+// 利用filter和indexOf方法
+Array.prototype.diff = function(a) {
+	return this.filter(function(i) {
+		return a.indexOf(i) < 0;
+	});
+};
 ```
 
 
