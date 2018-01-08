@@ -139,6 +139,222 @@ var list = [1,2,3];
 console.log(list.sort(function() { Math.random() - 0.5 })); // [2,1,3]
 ```
 
+## 修改数组
+> 注意：当数组执行这些方法时，都会修改原数组
+1. `array.pop` - 删除数组最后一位元素。
+``` bash
+var arr = [1, 2, 3];
+arr.pop();// 返回 3
+arr;// [1,2]
+```
+2. `array.shift` - 删除数组第一位元素。
+``` bash
+var arr = [1, 2, 3];
+arr.shift();// 返回 1
+arr;// [2,3]
+```
+3. `array.push` - 往数组的末尾新增一个或多个元素。
+``` bash
+var arr = [];
+arr.push(1);// 返回数组长度 1
+arr;// [1]
+arr.push(2,3);
+arr;// [1,2,3]
+```
+4. `array.unshift` - 往数组的开头新增一个或多个元素。
+``` bash
+var arr = [1, 2, 3];
+arr.unshift(0);
+arr.unshift(-1, -2);
+arr;// [-1, -2, 0, 1, 2]
+```
+5. `array.reverse` - 把数组元素顺序逆转。
+``` bash
+var arr = [1, 2, 3];
+arr.reverse();// [3, 2, 1]
+arr;// [3, 2, 1]
+```
+6. `array.sort` - 数组排序。
+``` bash
+var arr = [1 ,-1, 2];
+arr.sort();// [-1, 1, 2]
+arr;// [-1, 1, 2]
+arr = [{age: 10,},{age: 1}, {age: 12}];// 按照 age 从小到大排序
+arr.sort(function(a, b){return a.age - b.age > 0 ? 1 : -1;});
+```
+7. `array.splice` - 给数组添加或者删除元素。
+``` bash
+// splice(开始下标, 删除个数, 插入元素[可以多个])
+var arr = [1, 2, 3, 4];
+arr.splice(1, 2);// [2,3]
+arr;// [1,4]
+arr = [1, 2, 3, 4];
+arr.splice(1, 2, 'a', 'b', 'c');// [2,3]
+arr;// [1, "a", "b", "c", 4]
+```
+
+## 数组迭代方法
+> 注意：IE8 及以下版本不支持 every, some, map, reduce。
+> 如果想在 IE 8 及以下版本用这几个方法，可以用es5-shim 或 lodash。
+1. `array.forEach` - 遍历数组。
+``` bash
+['a', 'b', 'c'].forEach(function(each, index){
+	console.log(each, index);
+});
+// 输出 'a' 0  'b' 1 'c' 2
+```
+2. `array.filter` - 从数组中找出所有符合指定条件的元素。
+``` bash
+// 找出所有正数
+var res = [3, 4, -1].filter(function(each){
+	return each > 0;
+});
+res; //[3,4]
+```
+3. `array.every` - 数组中是否每个元素都满足指定的条件。
+``` bash
+// 是否都为正数
+var isAllPositive = [3, 4, -1].every(function(each){
+	return each > 0;
+});
+isAllPositive; // false;
+isAllPositive = [3, 4].every(function(each){
+	return each > 0;
+});
+isAllPositive; // true;
+```
+4. `array.some` - 数组中是否有元素满足指定的条件。
+``` bash
+// 是否有正数
+var isSomePositive = [3, 4, -1].some(function(each){
+	return each > 0;
+});
+isSomePositive; // true;
+isSomePositive = [-3, -4].every(function(each){
+	return each > 0;
+});
+isSomePositive; // false;
+```
+5. `array.map` - 将数组映射成另一个数组。
+``` bash
+// 内容 * 2
+[1, 2, 3].map(function(each){
+	return each * 2;
+});
+// 返回 [2, 4, 6]
+```
+6. `array.reduce` - 将数组合成一个值。
+``` bash
+// 数组内容求和。0 为初始值
+[1, 2, 3].reduce(function(prev, each){
+	return prev + each;
+}, 0);
+// 返回 6
+```
+
+## 数组的其他方法
+1. `Array.isArray` - 是否是数组。IE9+ 支持该方法。
+``` bash
+Array.isArray(3); // false
+Array.isArray({}); // false
+Array.isArray([]); // true
+```
+2. `array.concat` - 合并数组或合并数组的值。
+``` bash
+[1,2,3].concat(4,5); // 输出 [1, 2, 3, 4, 5]
+```
+3. `array.join` - 合并数组所有元素拼接成字符串。
+``` bash
+[1,2,3].join(); // 输出 '1,2,3'
+[1,2,3].join('@'); // 输出 '1@2@3'
+```
+4. `array.slice` - 选择数组中的一部分元素。
+``` bash
+// slice(开始下标, 结束下标（可选，默认为数组长度）)
+['a', 'b', 'c', 'd'].slice(1);// ["b", "c", "d"]
+['a', 'b', 'c', 'd'].slice(1, 2);// ["b"]
+['a', 'b', 'c', 'd'].slice(1, 3);// ["b", "c"]
+```
+5. `array.indexOf` - 查找数组中指定元素的下标。
+``` bash
+['a', 'b', 'c', 'd'].indexOf('c'); // 2
+['a', 'b', 'c', 'd'].indexOf('g'); // -1
+```
+6. `array.lastIndexOf` - 查找数组中指定元素的下标。查找方向为从后往前。
+``` bash
+['c', 'd', 'c'].lastIndexOf('c'); // 2
+['a', 'b', 'c', 'd'].lastIndexOf('g'); // -1
+```
+
+## 华丽分割ES6对数组的扩展
+
+1. `Array.of()` - 将一组值，转换为数组
+``` bash
+Array.of(2, 11, 3) // =>[2,11,3]
+Array.of(3) // =>[3]
+```
+2. `copyWithin()` - 在当前数组内部，将指定位置的成员复制到其他位置，返回当前数组
+``` bash
+// 第一个参数（从该位置开始替换数据）
+// 第二个参数可选（从该位置开始读取数据，默认为0，负值表示倒数）
+// 第三个参数（到该位置前停止读取，默认为数组长度）
+// 返回当前替换后的数组, 改变了当前数组 
+[1, 2, 3, 4, 5].copyWithin(0, 3) //=> [4, 5, 3, 4, 5]
+```
+3. 、`find()` 和 `findIndex()` - 找到第一个符合条件的数组成员
+``` bash
+[1, 5, 10, 15].find(function(value,index,arr){
+    return value > 9;
+})// =>10
+// find()返回找到的成员；findIndex()返回成员的位置。
+```
+4. `fill()` -  使用给定的值，填充一个数组
+``` bash
+// 第一个参数为待填充的值，第二和第三参数可选，分别表示填充的起始和结束位置(不包括)
+['a', 'b', 'c'].fill(7, 1, 2)
+// =>['a', 7, 'c']
+```
+5. `entries()`、`keys()`、`values()` - 用于遍历数组，可以用for…of循环进行遍历
+
+``` bash
+// keys()是对键名的遍历、values是对键值的遍历、entries()是对键值对的遍历, 输出遍历器对象 
+// 如果不使用for…of循环，可以手动调用遍历器对象的next方法，进行遍历
+for (let index of ['a', 'b'].keys()) {
+  console.log(index);
+}
+// =>0
+// =>1
+
+for (let elem of ['a', 'b'].values()) {
+  console.log(elem);
+}
+// =>'a'
+// =>'b'
+
+for (let [index, elem] of ['a', 'b'].entries()) {
+  console.log(index, elem);
+}
+// =>0 "a"
+// =>1 "b"
+```
+6. `includes()` - 表示某个数组是否包含给定的值
+``` bash
+// 第一个参数待检查的给定值，第二个参数可选，表示搜索的起始位置，默认为0，负数表示倒数的位置。 
+// 输出：一个布尔值。
+// 和indexOf的区别，indexOf进行了运算符的强比对，会导致对NaN误判。
+[1, 2, 3].includes(2);     // true
+[1, 2, 3].includes(4);     // false
+[1, 2, NaN].includes(NaN); // true
+```
+
+
+
+
+
+
+
+
+
 
 
 
