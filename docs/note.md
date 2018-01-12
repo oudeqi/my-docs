@@ -1,3 +1,19 @@
+# pointer-events: none;
+1. 禁用鼠标的 hover
+2. 禁用鼠标的 点击
+3. 让元素实体虚化，使鼠标穿透
+
+# 原素穿透效果
+1. 在IE浏览器下，filter滤镜实现的半透明渐变背景元素本身就是镂空的穿透的，我们可以使用鼠标选择或点击半透明背景**下面**的元素（上下层级关系）
+2. FireFox或是Chrome等现代浏览器，则半透明覆盖**下面**的元素会被遮住，无法选择或点击。对半透明覆盖元素应用`pointer-events:none`声明使其可以鼠标穿透，于是半透明覆盖**下面**的文字可以选择（上下层级关系）
+
+# 实现按钮、选项卡等的禁用效果
+1. input[type=text|button|radio|checkbox]等控件 + disabled属性: 可以实现事件的鼠标、键盘tab键索引的完全禁用（附带UI变化）
+
+2. a标签 + disabled属性: 无法实现兼容的完全（鼠标、键盘）禁用效果。（虽然IE下置灰文字看上去可以禁用）。
+
+3. `pointer-events:none;`可以禁用a标签的鼠标，`without href`可以禁用键盘tab键索引。即使如此，两者结合起来用不是很好，`pointer-events:none;`不能兼容底版本浏览器
+
 # 360浏览器默认以极速模式打开网页
 ``` bash
 <meta name="renderer" content="webkit"> //默认用极速核
