@@ -1,3 +1,49 @@
+# 团队约定：
+## 关于id选择器和class选择器
+1. id和固定前缀的class给JS使用，如：`js__item`给js使用
+2. 其他class给css使用
+
+## css class名字规范：
+1. `__`双下划线代表B和E连接例如 menu__item
+2. `--`双中划线代表B和M或E和M的连接 例如 menu--active 或 menu__item--active
+3. `-`中划线同英语里做连字符例如 mod-menu 或 mod-menu__item 这里 B或E或M需要多个单词来描述,就使用中划线
+``` bash
+.site-search{} /* 块 */  
+.site-search__field{} /* 元素 */  
+.site-search--full{} /* 修饰符 */   
+```
+
+## 关于BEM
+1. Block：将所有东西都划分为一个独立的模块,一个header是block,header里嵌套的搜索框是block,甚至一个icon一个logo也是block，block可以相互嵌套
+2. Element：一个Block下的所有Element无论相互层级如何,都要摊开扁平的属于Block，所以 BEM 最多只有 B+E+M 三级,不可能出现 B+E+E+..+E+M 超长class名,也要求E不能同名
+3. Modifier：之前我们经常写的 .current .active 等表达状态
+
+## BEM如何和后代选择器配合？
+1. 先选出样式独立的块，class命名使用BEM
+2. 在这个块下使用后代选择器，后代选择器可选择不使用BEM
+
+## css 代码复用：
+``` bash
+// 1. 变量名不用具体的值，用程度来划分
+@fontSizePrimary: 16px;
+@fontSizeSmall: @fontSizePrimary * 0.85;
+@fontSizeLarge: @fontSizePrimary * 1.25;
+// 2. 在公共样式里调用
+.ui-fs-medium{font-size: @fontSizePrimary;}
+.ui-fs-small{font-size: @fontSizeSmall;}
+.ui-fs-large{font-size: @fontSizeLarge;}
+```
+
+## 关于移动端适配方案(一套编码，适配多中屏幕尺寸的终极方案)
+1. 设置屏幕宽度为设备宽度，不缩放
+2. 竖屏根字体大小在一定屏幕宽度范围内，根据宽度动态计算（兼容ie8的情况下使用js动态计算），超出范围的，固定大小（使界面原素不至于过大）
+3. 横屏固定根字体大小（使界面原素不至于过大）
+4. 页面原素rem作为单位（兼容ie8的情况下em作为单位，因为默认font-size是inherit，这时不改变当前节点字体大小的话原素大小也是可响应的，需要改变字体大小的话，只能改变子节点字体大小）
+5. icon的雪碧图不能使用rem为单位的的background-position（原因是缩放的情况下，rem的background-position不准确），使用字体图标或者inline的svg或者inline的图片制作icon（不推荐针对icon写多套媒体查询--滥用媒体查询）
+6. 适配屏幕计算原素rem大小时的技巧：css预编处理器实现px2rem或者px2rem函数
+
+
+----------------------------------------------------------------------------
 # pointer-events: none;
 1. 禁用鼠标的 hover
 2. 禁用鼠标的 点击
