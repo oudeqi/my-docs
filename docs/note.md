@@ -1,3 +1,179 @@
+-----------------------------------------------------------------------
+# 团队约定
+## 关于id选择器和class选择器
+1. id和固定前缀的class给JS使用，如：`js__item`给js使用
+2. 其他class给css使用
+
+## css class名字规范：
+1. `__`双下划线代表B和E连接例如 menu__item
+2. `--`双中划线代表B和M或E和M的连接 例如 menu--active 或 menu__item--active
+3. `-`中划线同英语里做连字符例如 mod-menu 或 mod-menu__item 这里 B或E或M需要多个单词来描述,就使用中划线
+``` bash
+.site-search{} /* 块 */  
+.site-search__field{} /* 元素 */  
+.site-search--full{} /* 修饰符 */   
+```
+
+## 关于BEM
+1. Block：将所有东西都划分为一个独立的模块,一个header是block,header里嵌套的搜索框是block,甚至一个icon一个logo也是block，block可以相互嵌套
+2. Element：一个Block下的所有Element无论相互层级如何,都要摊开扁平的属于Block，所以 BEM 最多只有 B+E+M 三级,不可能出现 B+E+E+..+E+M 超长class名,也要求E不能同名
+3. Modifier：之前我们经常写的 .current .active 等表达状态
+
+## BEM如何和后代选择器配合？
+1. 先选出样式独立的块，class命名使用BEM
+2. 在这个块下使用后代选择器，后代选择器可选择不使用BEM
+
+## css 代码复用：
+``` bash
+// 1. 变量名不用具体的值，用程度来划分
+@fontSizePrimary: 16px;
+@fontSizeSmall: @fontSizePrimary * 0.85;
+@fontSizeLarge: @fontSizePrimary * 1.25;
+// 2. 在公共样式里调用
+.ui-fs-medium{font-size: @fontSizePrimary;}
+.ui-fs-small{font-size: @fontSizeSmall;}
+.ui-fs-large{font-size: @fontSizeLarge;}
+```
+
+## 关于移动端适配方案(一套编码，适配多中屏幕尺寸的终极方案)
+1. 设置屏幕宽度为设备宽度，不缩放
+2. 竖屏根字体大小在一定屏幕宽度范围内，根据宽度动态计算（兼容ie8的情况下使用js动态计算），超出范围的，固定大小（使界面原素不至于过大）
+3. 横屏固定根字体大小（使界面原素不至于过大）
+4. 页面原素rem作为单位（兼容ie8的情况下em作为单位，因为默认font-size是inherit，这时不改变当前节点字体大小的话原素大小也是可响应的，需要改变字体大小的话，只能改变子节点字体大小）
+5. icon的雪碧图不能使用rem为单位的的background-position（原因是缩放的情况下，rem的background-position不准确），使用字体图标或者inline的svg或者inline的图片制作icon（不推荐针对icon写多套媒体查询--滥用媒体查询）
+6. 适配屏幕计算原素rem大小时的技巧：css预编处理器实现px2rem或者px2rem函数
+
+
+----------------------------------------------------------------------------
+# pointer-events: none;
+1. 禁用鼠标的 hover
+2. 禁用鼠标的 点击
+3. 让元素实体虚化，使鼠标穿透
+
+# 原素穿透效果
+1. 在IE浏览器下，filter滤镜实现的半透明渐变背景元素本身就是镂空的穿透的，我们可以使用鼠标选择或点击半透明背景**下面**的元素（上下层级关系）
+2. FireFox或是Chrome等现代浏览器，则半透明覆盖**下面**的元素会被遮住，无法选择或点击。对半透明覆盖元素应用`pointer-events:none`声明使其可以鼠标穿透，于是半透明覆盖**下面**的文字可以选择（上下层级关系）
+
+# 实现按钮、选项卡等的禁用效果
+1. input[type=text|button|radio|checkbox]等控件 + disabled属性: 可以实现事件的鼠标、键盘tab键索引的完全禁用（附带UI变化）
+
+2. a标签 + disabled属性: 无法实现兼容的完全（鼠标、键盘）禁用效果。（虽然IE下置灰文字看上去可以禁用）。
+
+3. `pointer-events:none;`可以禁用a标签的鼠标，`without href`可以禁用键盘tab键索引。即使如此，两者结合起来用不是很好，`pointer-events:none;`不能兼容底版本浏览器
+
+# 360浏览器默认以极速模式打开网页
+``` bash
+<meta name="renderer" content="webkit"> //默认用极速核
+<meta name="renderer" content="ie-comp"> //默认用ie兼容内核
+<meta name="renderer" content="ie-stand"> //默认用ie标准内核
+```
+
+# 不可能使用calc()转换在IE中的translateX
+``` bash
+// 谷歌、火狐上可以，ie不生效
+#myDiv {
+    transform: translateX(calc(100% - 50px));
+}
+// 兼容谷歌、火狐、ie
+#myDiv {
+    transform: translateX(100%) translateX(-50px);
+}
+```
+
+# 自定义触摸事件
+``` bash
+app.directive('tap',function(){
+    return function(scope, elem, attrs){
+        var start,end,t,moved = false;
+        elem.bind('touchstart',function(e){
+            start = e.timeStamp;
+            moved = false;
+            elem.css({
+                "opacity":"0.7"
+            });
+        });
+        elem.bind('touchmove',function(e){
+            end = e.timeStamp;
+            t = end - start;
+            if(t>300){
+                e.preventDefault();
+            }
+            moved = true;
+        });
+        elem.bind('touchend',function(e){
+            elem.css({
+                "opacity":"1"
+            });
+            end = e.timeStamp;
+            t = end - start;
+            if(!moved && t>10 && t<300){
+                if(attrs.tap){
+                    scope.$apply(attrs.tap);
+                }
+            }
+        });
+    };
+});
+```
+
+# 浅拷贝对象
+> 赋值运算符不会创建一个对象的副本，它只分配一个引用。  
+> 复制对象的原始方法是循环遍历原始对象，然后一个接一个地复制每个属性。  
+> 浅层复制将复制顶级属性，但是**嵌套对象**将在**原始对象**和**副本对象**之间是共享。  
+
+``` bash 
+let obj = {
+    a: 1,
+    b: 2,
+};
+let objCopy = Object.assign({}, obj);
+console.log(objCopy); // result - { a: 1, b: 2 }
+objCopy.b = 89;
+console.log(objCopy); // result - { a: 1, b: 89 }
+console.log(obj); // result - { a: 1, b: 2 }
+// 浅拷贝，副本和原始对象共享对象类型的属性
+// 可以用于复制对象的方法
+// 适用于浅拷贝循环引用对象（自身属性引用自身属性）
+```
+
+``` bash
+let obj = { 
+    a: 1,
+    b: { 
+        c: 2,
+    },
+}
+let newObj = JSON.parse(JSON.stringify(obj));
+obj.b.c = 20;
+console.log(obj); // { a: 1, b: { c: 20 } }
+console.log(newObj); // { a: 1, b: { c: 2 } } (一个新的对象)
+// 深度拷贝对象
+// 不能用于复制对象方法
+// 复制循环引用对象会报错（自身属性引用自身属性）
+```
+
+``` bash
+const array = [
+    "a",
+    "c",
+    "d", {
+        four: 4
+    },
+];
+const newArray = [...array];
+console.log(newArray); // ["a", "c", "d", { four: 4 }]
+// 浅拷贝
+
+let obj = {
+    one: 1,
+    two: 2,
+}
+let newObj = { ...z };
+console.log(newObj); // { one: 1, two: 2 }
+// 浅拷贝
+
+```
+
 # 让页面字体变平滑
 ``` bash
 body {
