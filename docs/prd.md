@@ -153,11 +153,11 @@ d) Input location //输入位置
 	i. Open Map to tag location//打开地图标记位置
 e) Price
 	i. Price for user //用户价格
-	 --Input price
-	 --Select date
+		--Input price
+		--Select date
 	ii. Price for reseller (optional)//经销商价格（可选）
-	 --Input price
-	 --Select date
+		--Input price
+		--Select date
 f) Info/Description//信息描述
 ```
 2. Edit/Delete Products //编辑/删除产品
@@ -169,8 +169,8 @@ c) Price
 		--Input price
 		--Select date
 	ii. Price for reseller (optional)
-	 --Input price
-	 --Select date
+		--Input price
+		--Select date
 d) Info/Description
 ```
 3. Product List
