@@ -1,3 +1,64 @@
+# 开关效果
+``` bash
+<!-- html -->
+<label class="btn-switch">
+    <input type="checkbox">
+    <span class="switch"></span>
+</label>
+
+<!-- css -->
+<style type="text/css">
+    .btn-switch {
+        user-select:none;
+        display: inline-block;
+        cursor: pointer;
+    }
+    .btn-switch .switch {
+        display: inline-block;
+        width: 60px;
+        height: 30px;
+        border-radius: 30px;
+        position: relative;
+        overflow: hidden;
+    }
+    .btn-switch .switch:before {
+        content: "关";
+        display: block;
+        width: 100%;
+        height: 30px;
+        line-height: 30px;
+        padding: 0 10px;
+        background-color: #ccc;
+        text-align: left;
+        transition: all .3s ease;
+    }
+    .btn-switch .switch:after {
+        content: " ";
+        display: block;
+        width: 26px;
+        height: 26px;
+        background-color: red;
+        border-radius: 50%;
+        overflow: hidden;
+        position: absolute;
+        top: 2px;
+        transform: translateX(32px);
+        transition: all .3s ease;
+    }
+    .btn-switch input[type="checkbox"] {
+        display: none;
+    }
+    .btn-switch input[type="checkbox"]:checked + .switch:before {
+        content: "开";
+        background-color: #ccc;
+        text-align: right;
+    }
+    .btn-switch input[type="checkbox"]:checked + .switch:after {
+        transform: translateX(2px);
+    }
+</style>
+```
+
 -----------------------------------------------------------------------
 # 浏览器的缓存机制
 > 在产品开发的时候我们总是想办法避免缓存产生，以及新发布版本的时候只缓存未修改的代码，而在生产环境又在想策略管理缓存提升网页的访问速度。
