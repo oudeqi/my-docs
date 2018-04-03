@@ -1,25 +1,83 @@
+# 选中效果
+``` bash
+<label class="btn-checkbox">
+    <input type="checkbox">
+    <span class="icon"></span>
+</label>
+
+<style type="text/css">
+    /*选中*/
+    .btn-checkbox {
+        user-select:none;
+        display: inline-block;
+        vertical-align: middle;
+        margin: 0;
+        padding: 0;
+    }
+    .btn-checkbox input[type="checkbox"] {
+        display: none;
+    }
+    .btn-checkbox input[type="checkbox"] + .icon {
+        cursor: pointer;
+        float: left;
+        width: 24px;
+        height: 24px;
+        border: 1px solid #e0e0e0;
+        display: inline-flex;
+        justify-content: center;
+        align-items: center;
+    }
+    .btn-checkbox input[type="checkbox"]:disabled + .icon {
+        cursor: initial;
+    }
+    .btn-checkbox input[type="checkbox"] + .icon:after {
+        content: " ";
+        display: block;
+        width: 16px;
+        height: 16px;
+        background-color: #ccc;
+    }
+    .btn-checkbox input[type="checkbox"]:checked + .icon:after {
+        background-color: red;
+    }
+</style>
+```
 # 开关效果
 ``` bash
-<!-- html -->
+<!-- 开关一 -->
 <label class="btn-switch">
     <input type="checkbox">
     <span class="switch"></span>
 </label>
 
-<!-- css -->
+<!-- 开关二 -->
+<label class="btn-switch-2">
+    <input type="checkbox">
+    <span class="switch">
+        <span>关</span>
+        <span class="icon"></span>
+        <span>开</span>
+    </span>
+</label>
+
 <style type="text/css">
+    /*开关一*/
     .btn-switch {
         user-select:none;
         display: inline-block;
-        cursor: pointer;
+        vertical-align: middle;
+        margin: 0;
+        padding: 0;
     }
     .btn-switch .switch {
         display: inline-block;
+        float: left;
         width: 60px;
         height: 30px;
         border-radius: 30px;
         position: relative;
         overflow: hidden;
+        cursor: pointer;
     }
     .btn-switch .switch:before {
         content: "关";
@@ -48,6 +106,9 @@
     .btn-switch input[type="checkbox"] {
         display: none;
     }
+    .btn-switch input[type="checkbox"]:disabled + .switch {
+        cursor: initial;
+    }
     .btn-switch input[type="checkbox"]:checked + .switch:before {
         content: "开";
         background-color: #ccc;
@@ -55,6 +116,53 @@
     }
     .btn-switch input[type="checkbox"]:checked + .switch:after {
         transform: translateX(2px);
+    }
+    /*开关二*/
+    .btn-switch-2 {
+        user-select:none;
+        display: inline-block;
+        vertical-align: middle;
+        margin: 0;
+        padding: 0;
+        width: 60px;
+        height: 30px;
+        border-radius: 30px;
+        overflow: hidden;
+    }
+    .btn-switch-2 .switch {
+        display: inline-flex;
+        justify-content: flex-start;
+        align-items: center;
+        background: #ccc;
+        transition: all .3s ease;
+        margin-left: 0;
+        cursor: pointer;
+    }
+    .btn-switch-2 .switch span {
+        float: left;
+        width: 30px;
+        height: 30px;
+        display: inline-flex;
+        justify-content: center;
+        align-items: center;
+        flex-shrink: 0;
+        box-sizing: border-box;
+    }
+    .btn-switch-2 .switch .icon {
+        background: #aaa;
+        width: 26px;
+        height: 26px;
+        border-radius: 50%;
+    }
+    .btn-switch-2 input[type="checkbox"] {
+        display: none;
+    }
+    .btn-switch-2 input[type="checkbox"]:checked + .switch {
+        margin-left: -26px;
+        background: purple;
+    }
+    .btn-switch-2 input[type="checkbox"]:checked + .switch .icon{
+        background: red;
     }
 </style>
 ```
