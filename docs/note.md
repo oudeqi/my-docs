@@ -1,3 +1,18 @@
+# 阻止移动端浏览器点击图片默认放大的几种方法
+> 在一些移动端浏览器上，如果点击图片，会产生一个浏览图片的行为(vivo手机微信浏览器网页点击图片，图片会自动放大)
+``` bash
+// 1. 在img元素上添加 onclick="return false"
+<img src="a.png" onclick="return false" />
+// 2. 图片用背景图的方式插入
+background:url(a.png) norepeat center;
+// 3. 使用js事件阻止默认行为的方法，这里需要注意哦
+// 关于这里的click事件，其实也可以是touchend事件，不建议使用touchstart和touchmove事件，特殊情况的限制
+document.getElementById('banner').addEventListener('click',function(e){
+　　e.preventDefault();
+});
+// 4. 禁止放大效果的同时，禁止长按识别二维码或保存图片
+img{ pointer-events: none; }
+```
 # postcss
 > https://www.postcss.parts/
 # 选中效果
