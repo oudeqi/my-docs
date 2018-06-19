@@ -13,6 +13,64 @@
 11. 预加载，懒加载
 12. countdown
 13. timeAgo
+14. tree
+15. treeTable
+
+
+# iframe的坏处
+- 创建iframe比创建其他 DOM 元素（包括 style 和 script）更消耗性能，iframe过多会导致页面卡顿、内存增长很快
+- iframe阻塞主页面加载:window的 onload 事件直到它所包含的所有 iframe，以及所有 iframe中的资源完全加载完成后才会触发。在 Safari和 Chrome 中，用 javascritpt 动态的给 iframe 的 src 赋值可以避免这种阻塞行为。
+- 连接池:对每个 web 服务器来说，浏览器在同一时间只打开几个连接数， iframe和主页面共享同一个连接池。这意味着有可能 iframe 中的资源占用了可用连接而阻塞了主页面的资源加载，在通常情况下 iframe 中的内容对页面来说不太重要，iframe 占用连接数是不可取的。一个解决方案是在优先级更高的资源下载完成后再动态的给 iframe 的 src 赋值。
+- 在一个网页中加载iFrame的四个方法：普通加载Iframe,在onload以后加载Iframe,Iframe setTimeout 和动态Iframe.每个方法都在IE8测试过，并用瀑布图表示。我推荐动态加载iframe技术因为他的性能比较好
+``` bash
+
+1. 普通加载iframe
+Iframe在主页面的onload之前加载
+iframe会在所有的iframe的内容加载完成后触发iframe的onload事件
+iframonload会在iframe onload完成之后再触发，iframe阻塞了主页的加载
+当iframe加载期间，一个或多个浏览指示器显示忙表示一些事在加载
+
+<iframe src="/path/to/file" frameborder="0" width="728" height="90" scrolling="auto"></iframe>
+
+2. 在onload之后加载iframe
+在主页面的onload事件之后iframe开始加载
+主页面的onload事件触发不需要iframe干涉，ifrae不会阻塞主页面加载
+当iframe加载时候，一个或更多的浏览器忙标识显示一些内容正在加载
+设想你想要加载一些内容在一个iframe，但对于页面不是很重要的，或者不一定要立刻显示iframe内容给用户看，因为隐藏在链接或tab之后下载，可以考虑延迟加载直到主页面加载完后。
+
+function createIframe(){
+    var i = document.createElement("iframe");
+    i.src = 'path/to/file';
+    i.scrolling = "auto";
+    i.frameborder = "0";
+    i.width = "200px";
+    i.height = "100px";
+    document.getElementById("div-that-holds-the-iframe").appendChild(i);
+};
+
+if (window.addEventListener) {
+    window.addEventListener("load", createIframe, false);
+} else if (window.attachEvent) {
+    window.attachEvent("onload", createIframe);
+} else {
+    window.onload = createIframe;
+}
+
+3. Iframe setTimeout
+在 Safari和 Chrome 中，用 javascritpt 动态的给 iframe 的 src 赋值可以避免阻塞主页面加载
+document.querySelector('iframe').src = 'path/to/file'
+
+4. 动态Iframe
+setTimeout(function () {
+    createIframe()
+}, 5)
+
+```
+
+# 使用iframe的好处
+1. 从其弊中我们可以联想到例外一个html中常用的标签nofollow，既然使用iframe标签可以让蜘蛛对该部分抓取困难，那我们就可以把我们网站的一些需要给用户看的，而不需要给搜索引擎看到的信息使用iframe标签来设计，这样就可以让iframe变废为宝了，而且有代码瘦身的作用，举一个例子，比如一些大型网站首页的备-案信息，荣誉zhengshu，认证等之类的链接，这些我们不需要给搜索引擎看，因为这样稀释了网站首页的权重，我们就可以搭配iframe来使用，（注意不要占用连接池）而且只需要在首页被使用，其他页面可以不需要这些信息，是不是很完美呢。
+2. 可以使用iframe来调用广告，这样会避免seo的拒收录的情况；各大门户网站新浪、腾讯、网页、搜狐等等......都用了iframe标签调用广告
+
 
 # 阻止移动端浏览器点击图片默认放大的几种方法
 > 在一些移动端浏览器上，如果点击图片，会产生一个浏览图片的行为(vivo手机微信浏览器网页点击图片，图片会自动放大)
