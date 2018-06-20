@@ -16,6 +16,25 @@
 14. tree
 15. treeTable
 
+# 关于 history.back()、history.go()回退但刷新页面无法兼容的问题
+1. `window.history.back();` 确实可以做到后退的功能，但是后退的同时，无法刷新后退的页面信息。
+2. `document.referrer` 可以取到上一个页面的具体路径
+3. `window.location.href = document.referrer;` 实现后退并且刷新
+4. `document.referrer` 在很多情况下会丢失，避免使用
+
+# document.referrer 丢失的情况
+1. 用户手动输入网址、从收藏夹中访问、鼠标拖拽文档打开窗口 获取不到document.referrer
+2. 对https等加密协议是不带Referrer的
+3. 跨域
+4. 使用修改 Location 进行页面导航的方法，会导致在IE下丢失 referrer
+5. Chrome4.0以下，IE 5.5+以下返回空的字符串
+6. 使用location.reload()刷新（location.href或者location.replace()刷新有信息）
+7. 在微信对话框中，点击进入微信自身浏览器
+8. 扫码进入微信或QQ的浏览器
+9. 从https的网站直接进入一个http协议的网站（Chrome下亲测）
+10. a标签设置rel="noreferrer"（兼容IE7+）`<a href="test.html" target="_blank" rel="noreferrer">点我到test.html</a>`
+11. meta标签来控制不让浏览器发送referer`<meta name="referrer" content="never">`
+12. 点击 flash 内部链接
 
 # iframe的坏处
 - 创建iframe比创建其他 DOM 元素（包括 style 和 script）更消耗性能，iframe过多会导致页面卡顿、内存增长很快
