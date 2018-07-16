@@ -16,6 +16,8 @@
 14. tree
 15. treeTable
 
+# iPhone 事件委托不生效，除非在被委托的原素上添加样式`cursor: pointer;`
+
 # 关于 history.back()、history.go()回退但刷新页面无法兼容的问题
 1. `window.history.back();` 确实可以做到后退的功能，但是后退的同时，无法刷新后退的页面信息。
 2. `document.referrer` 可以取到上一个页面的具体路径
