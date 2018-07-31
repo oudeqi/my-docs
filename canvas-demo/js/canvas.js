@@ -14,6 +14,40 @@ $(function(){
 	context.clearRect(50,50,20,20);
 });
 
+var list = [
+    {
+    	priceName: '大物件1',
+        imgSrc: 'path-1'
+	},
+    {
+        priceName: '大物件2',
+        imgSrc: 'path-2'
+    },
+    {
+        priceName: '大物件3',
+        imgSrc: 'path-3'
+    },
+	{
+        priceName: '大物件4',
+        imgSrc: 'path-4'
+	}
+]
+
+list.forEach(function (item) {
+	if (item.priceName === '大物件1') {
+		item.imgSrc = 'path-1';
+	} else if (item.priceName === '大物件2') {
+        item.imgSrc = 'path-2';
+	} else if (item.priceName === '大物件3') {
+        item.imgSrc = 'path-3';
+    } else if (item.priceName === '大物件4') {
+        item.imgSrc = 'path-4';
+	} else {
+        item.imgSrc = 'path-default';
+	}
+})
+
+
 $(function(){
 	var $canvas = $('#canvas_2').get(0);
 	if(!$canvas){
