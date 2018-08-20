@@ -16,7 +16,15 @@
 14. tree
 15. treeTable
 
-# iPhone 事件委托不生效，除非在被委托的原素上添加样式`cursor: pointer;`
+# iPhone 手机中横线格式的时间字符串实例化会失败
+``` bash
+new Date('2018-12-24'); // Invalid Date
+new Date('2018-12-24 12:20:20'); // Invalid Date
+new Date('2018/12/24'); // 不报错
+new Date('2018/12/24 12:20:20'); // 不报错
+```
+
+# iPhone手机事件委托不生效，除非在被委托的原素上添加样式`cursor: pointer;`
 
 # 关于 history.back()、history.go()回退但刷新页面无法兼容的问题
 1. `window.history.back();` 确实可以做到后退的功能，但是后退的同时，无法刷新后退的页面信息。
