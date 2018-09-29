@@ -10,7 +10,7 @@ body {
 	background: #fff;
 	width: 100%;
 	height: 100%;
-	font-family: Helvetica "Microsoft Yahei" sans-serif;
+	font-family: Helvetica, "Microsoft Yahei", sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
 	
