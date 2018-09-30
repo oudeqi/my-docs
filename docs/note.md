@@ -16,6 +16,68 @@
 14. tree
 15. treeTable
 
+# `location.href`页面跳转 与 `a`超链接跳转 的兼容问题
+``` bash
+// 部分设备，页面跳转后，再返回 页面不刷新问题
+// 解决办法：更改跳转方式
+$.href = function(url, no_history) {
+    if(no_history) {
+        location.replace(url);
+        return;
+    }
+    window.history.pushState("", "", url);
+    window.history.forward(1);
+    location.reload();
+};
+
+$(window).on("popstate", function() {
+    if($._loction != $.getUrl()) { // $._loction 当前页面全局保存的 loction // $.getUrl 部分保存快照的设备，获取当前的url
+        location.reload();
+    }
+});
+```
+# 封装数据访问的函数
+1. 让api变得简洁
+2. 采用公共配置，并且该配置，能在使用的时候被改写，或者扩展
+3. 回调函数除了要提取出所有请求要执行的操作，还要暴露出具体业务逻辑部分
+``` bash
+var utils = {
+    get: function (url, params, success, error) {
+        $.get(url + '?' + $.param(params), function(data, textStatus){
+            if(data.success) {
+                success(data); //具体业务逻辑部分
+            } else {
+                if (data.code === 'authFail') {
+                    commom.toast("登录超时，请重新登录！"); // 公共操作
+                    location.href = "/view/login"; // 公共操作
+                } else {
+                    success(data); //具体业务逻辑部分
+                }
+            }
+        }, function (err) {
+            commom.toast("网络异常");  // 公共操作
+            if (typeof error == 'function') {
+                error(err); //具体业务逻辑部分
+            }
+        });
+    }
+}
+utils.get('/abc/500', {a:1, b: 2}, function (res) {
+    if (res.success) {
+        $('div').text(res.data);
+    } else {
+        $('div').text('');
+    }
+}, function (err) {
+    $('err').text(err);
+})
+```
+
+# 关于javascript中的分号
+1. 函数申明式、代码块 ==》后面不用加分号
+2. 函数表达式、变量申明、函数调用 不是代码块或者函数内的最后一行 ==》后面需要加分号
+3. 函数表达式、变量申明、函数调用 是代码块或者函数内的最后一行 ==》后面可以不用加分号
+
 # iPhone 手机中横线格式的时间字符串实例化会失败
 ``` bash
 new Date('2018-12-24'); // Invalid Date
