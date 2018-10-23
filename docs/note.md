@@ -17,6 +17,46 @@
 14. tree
 15. treeTable
 
+# html 规范
+``` bash
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+</head>
+<body>
+    <div id="page_container"></div>
+    <div class="page-container js__page_container">
+        def
+    </div>
+    <script type="text/html" id="tpl__page">
+        <div>abc</div>
+    <script/>
+    <script type="text/javascript">
+    
+        let G_age = 12;
+        let G_userName = 'jim';
+        
+        let $age = 12;
+        let $userName_s = 'sam';
+        
+        let userName_i = 2;
+        let userName_s = 'sam';
+        let userName_o = {};
+        let userName_a = [];
+        let userName_b = true;
+        let userName_$ = $('.js__page');
+        
+    </script>
+</body>
+</html>
+```
+1. id使用下划线`_`做字符串连接，如果是模板原素要加`tpl__`前缀。如：`#page_container`,`#tpl__page_container`
+2. 给样式使用的class使用中横线`-`做字符串连接。如：`.page-container`
+3. 给js使用的class使用下划线`_`做字符串连接，并且要加`js__`前缀。如：`.js__page_container`
+4. js中的全局变量表示'$'。如：`let $userName = 'jim'`
+5. js中的数据类型表示。如：`let userName_s = 'sam'`、`let $userName_$ = $('.js__page')`
+
 # `<script>`标签放在`<body>`标签的外部的后面产生的坑
 如果`<script>`标签写在`<body>`标签的后面，浏览器在解析的时候会把`<script>`标签的内容放到`<body>`标签里面最后去
 ``` bash
