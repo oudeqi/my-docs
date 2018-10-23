@@ -1,3 +1,4 @@
+
 # TODO
 
 1. 无交互UI组件：栅格、按钮
@@ -15,6 +16,46 @@
 13. timeAgo
 14. tree
 15. treeTable
+
+# `<script>`标签放在`<body>`标签的外部的后面产生的坑
+如果`<script>`标签写在`<body>`标签的后面，浏览器在解析的时候会把`<script>`标签的内容放到`<body>`标签里面最后去
+``` bash
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+</head>
+<body>
+
+</body>
+<script type="text/javascript">
+    console.log('abc')
+</script>
+</html>
+
+// 如上的代码，在浏览器解析的时候，会变成下面这样
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+</head>
+<body>
+
+<script type="text/javascript">
+    console.log('abc')
+</script>
+</body>
+</html>
+
+// 这就会造成一个问题：
+// 如果使用过 $('body').html('')设置body的内容，
+// 设置之后 所有body内的script都会找不到，就可能会发生意想不到的错误。
+
+// 解决办法：
+// 不要使用$('body').html('')设置body的内容，使用替换方式 $('body>#page_container').html('')
+// 并且，为了规范script标签写在body内部的后面。
+```
 
 # `location.href`页面跳转 与 `a`超链接跳转 的兼容问题
 ``` bash
