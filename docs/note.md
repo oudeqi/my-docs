@@ -55,7 +55,7 @@
 2. 给样式使用的class使用中横线`-`做字符串连接。如：`.page-container`
 3. 给js使用的class使用下划线`_`做字符串连接，并且要加`js__`前缀。如：`.js__page_container`
 4. js中的全局变量表示'$'。如：`let $userName = 'jim'`
-5. js中的数据类型表示。如：`let userName_s = 'sam'`、`let $userName_$ = $('.js__page')`
+5. js中的数据类型表示，如果需要的话。如：`let userName_s = 'sam'`、`let $userName_$ = $('.js__page')`
 
 # `<script>`标签放在`<body>`标签的外部的后面产生的坑
 如果`<script>`标签写在`<body>`标签的后面，浏览器在解析的时候会把`<script>`标签的内容放到`<body>`标签里面最后去
