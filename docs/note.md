@@ -17,6 +17,57 @@
 14. tree
 15. treeTable
 
+# 苹果手机下细字体效果
+``` bash
+font-family: "PingFangSC-Thin";
+// PingFangSC-Thin是苹果系统字体，只在苹果下有效果
+
+```
+# iOS - 使用自定义字体-苹方字体 
+1. 默认字体：Heiti SC（黑体-简，黑体-简的英文名称为Heiti SC。Heiti为黑体的拼音，SC代表简体中文（Simplified 
+  Chinese）），是Mac OS X Snow Leopard（版本10.6）包含的简体中文字型，也是iPhone OS 3.0（版本4.0后改名为iOS）及iPod nano第五代以来的预设简体中文字型。  
+2. 苹方字体是ios9上的默认中文字体，它代替了使用多年的华文黑体，新的字体 "苹方" 专为电子显示屏而设计，让简体和繁体中文都格外清晰易读。
+  
+苹方提供了六个字重，font-family 定义如下
+``` bash
+// 苹方-简 常规体
+font-family: PingFangSC-Regular, sans-serif;
+// 苹方-简 极细体
+font-family: PingFangSC-Ultralight, sans-serif;
+// 苹方-简 细体
+font-family: PingFangSC-Light, sans-serif;
+// 苹方-简 纤细体
+font-family: PingFangSC-Thin, sans-serif;
+// 苹方-简 中黑体
+font-family: PingFangSC-Medium, sans-serif;
+// 苹方-简 中粗体
+font-family: PingFangSC-Semibold, sans-serif;
+```
+苹方-繁 的 CSS font-family 使用：
+``` bash
+font-family: PingFangTC-Regular, sans-serif;
+font-family: PingFangTC-Ultralight, sans-serif;
+font-family: PingFangTC-Light, sans-serif;
+font-family: PingFangTC-Thin, sans-serif;
+font-family: PingFangTC-Medium, sans-serif;
+font-family: PingFangTC-Semibold, sans-serif;
+```
+苹方-港 的 CSS font-family 使用：
+``` bash
+font-family: PingFangHK-Regular, sans-serif;
+font-family: PingFangHK-Ultralight, sans-serif;
+font-family: PingFangHK-Light, sans-serif;
+font-family: PingFangHK-Thin, sans-serif;
+font-family: PingFangHK-Medium, sans-serif;
+font-family: PingFangHK-Semibold, sans-serif;
+```
+
+# 安卓手机自带的思源字体
+1. 2014年7月，Adobe与Google宣布推出一款新的开源字体思源黑体， 有七种字体粗细（ExtraLight、Light、Normal、Regular，Medium、Bold 和 Heavy），
+2. 完全支持日文、韩文、繁体中文和简体中文，还包括来自 Source Sans字体家族的拉丁文、希腊文和西里尔文字形。
+3. 安卓手机自带的思源黑体字重不全，仅Regular字重一个，
+4. 而其他需要显示粗体的地方都是靠渲染Regular这个字重加粗而来，就导致了一个问题：笔画黏连
+
 # html 规范
 ``` bash
 <!DOCTYPE html>
