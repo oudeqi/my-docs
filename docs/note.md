@@ -17,6 +17,22 @@
 14. tree
 15. treeTable
 
+# js异步编程方式
+1. 纯粹callback方式：回调地狱、剥夺了retrun能力。
+2. promise方式：代码的风格优化、多个异步等待合并、拥有retrun能力。
+3. async、await方式：最好的异步编程解决方式
+4. promise是对象，可以保存状态：pending、fulfilled、rejected。  
+``` bash
+promise精髓：  
+
+promise以对象的形式保存了异步调用的结果，而这个对象可以放在任何地方，promise不管有多少层，
+每一层只需要把对应的promise返回给上层，不需要附带任何回调函数，直到最外层，
+想在promise中取得异步操作的结果时才会使用到回调函数。  
+
+而回调函数的方式：函数不能保存状态，每一层异步调用，
+都需要传递回调函数，取得上一次异步调用的结果。
+```
+
 # 苹果手机下细字体效果
 ``` bash
 font-family: "PingFangSC-Thin";
