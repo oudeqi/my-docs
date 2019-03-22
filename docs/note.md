@@ -17,6 +17,53 @@
 14. tree
 15. treeTable
 
+# ajax下载文件
+1. 设置请求头：`responseType: 'blob'`
+2. 使用响应头传输汉字，会被浏览器默认base64编码，需要做解码处理
+3. ajax获取特定的响应头，服务器需要做特定的处理
+``` bash
+this.$http.post('/daily/dailyReport/export', {
+    date: this.selectedDate,
+    orgId: this.selectedAreaID
+}, {
+    responseType: 'blob'
+}).then(res => {
+    const filename = getFilename(res.headers['content-disposition'])
+    downloadBlob(res.data, filename)
+}).catch(() => {})
+
+function getFilename (argu) {
+return window.decodeURIComponent(argu.split(';')[1].split('=')[1])
+}
+function downloadBlob (data, filename) {
+// const blob = new Blob([data], {type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=utf-8'})
+// , {type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=utf-8'} // 表示xlsx类型
+const downloadElement = document.createElement('a')
+const href = window.URL.createObjectURL(data)
+downloadElement.href = href
+downloadElement.download = filename
+document.body.appendChild(downloadElement)
+downloadElement.click()
+document.body.removeChild(downloadElement)
+window.URL.revokeObjectURL(href)
+}
+```
+# ajax获取特定的响应头
+跨域请求时,response中大部分header需要服务端同意才能拿到，
+跨域访问默认只能访问以下响应头
+* Cache-Control
+* Content-Language
+* Content-Type
+* Expires
+* Last-Modified
+* Pragma
+
+如果想让浏览器能访问到其他的响应头的话，服务器需要设置允许跨域访问的header
+``` bash
+# 设置多个用英文逗号分开
+Access-Control-Expose-Headers : 'Authorization,content-disposition'
+```
+
 # 组件的作用
 1. 分离代码（在普通的项目中更能体现）
 2. 代码复用（除了普通的项目常见，在封装开源组件时更能体现）
