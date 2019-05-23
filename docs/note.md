@@ -17,6 +17,105 @@
 14. tree
 15. treeTable
 
+# 固定长度内随机范围，end值的获取
+``` bash
+const length = 8
+const start = Math.floor(Math.random() * length)
+const secScope = length - start # end安全值范围 = 长度 - start
+const secEnd = Math.floor.(Math.random() * secScope) # end安全值
+cosnt end = secEnd + start + 1
+```
+
+# passive event listener （被动事件监听）
+
+``` bash 
+target.addEventListener(event, handler, false)
+# 常规操作下，这第三个参数是一个布尔值，叫useCapture
+# 也就是指在DOM树中，注册了该listener的元素，是否会先于它下方的任何事件目标，接收到该事件。
+
+# DOM事件流（event flow）存在三个阶段：事件捕获阶段、处于目标阶段、事件冒泡阶段。
+# 如果useCapture设置为false，当前eventTarget就不会在捕获阶段接收该事件。
+# 浏览器默认我们不会在捕获阶段触发绑定事件的handler。
+
+# 第三个参数其实并不一定是一个布尔值。他也可以是一个对象，一组配置。
+{
+    capture: Boolean, # 表示`listener`会在该类型的事件捕获阶段传播到该`EventTarget`时触发
+    once: Boolean, # 表示`listener`在添加之后最多只调用一次。如果是`true`，`listener`会在其被调用之后自动移除
+    passive: Boolean, 
+    # 表示`listener`永远不会调用`preventDefault()`。
+    # 如果`listener`仍然调用了这个函数，客户端将会忽略它并抛出一个控制台警告
+    # [Intervention] Unable to preventDefault inside passive event listener due to target being treated as passive 
+}
+```
+
+通常是我们监听touch事件的时候，当我们在滚动页面的时候，页面其实会有一个短暂的停顿（大概200ms），  
+原因是：浏览器不知道我们是否要preventDefault，所以它需要一个延迟来检测。这就导致了我们的滑动显得比较卡顿。  
+
+如果 Web 开发者能够提前告诉浏览器：“我不调用 preventDefault 函数来阻止事件事件行为”，那么浏览器就能快速生成事件，从而提升页面性能，Passive event listeners 的提出就解决了这样的问题。  
+
+从Chrome 51开始，passive event listener被引进了Chrome，
+我们可以通过对addEventListener的第三个参数设置{ passive: true }
+来避免浏览器检测这个我们是否有在touch事件的handler里调用preventDefault。
+在这个时候，如果我们依然调用了preventDefault，就会在控制台打印一个警告。告诉我们这个preventDefault会被忽略  
+
+当我们给addEventListener的第三个参数设置了{ passive: true }，这个事件监听器就被称为passive event listener  
+
+从Chrome 56开始，如果我们给document绑定touchmove或者touchstart事件的监听器，
+这个passive是会被默认设置为true以提高性能。但是我们大多数人并不知道这点，并且依旧调用了preventDefault。
+这并不会导致什么页面崩溃级的错误，但是这可能导致我们忽略了一个页面性能优化的点。  
+
+消除警告的办法：
+
+``` bash
+
+# 解决办法1：传递 passive 为 false 
+# 明确告诉浏览器：事件处理程序调用 preventDefault 来阻止默认滑动行为。
+elem.addEventListener('touchstart', fn, { passive: false })
+
+# 解决办法2：使用全局样式样式去掉
+* { touch-action: pan-y; } 
+# touch-action 用于指定某个给定的区域是否允许用户操作，以及如何响应用户操作（比如浏览器自带的划动、缩放等）
+# 移动端300ms延迟，就可以使用 touch-action: manipulation; 来解决
+
+```
+
+
+
+# 函数节流（throttle）与函数去抖（debounce)
+``` bash
+# 空闲控制：当调用动作n毫秒后，才会执行该动作，若在这n毫秒内又调用此动作则不执行，并且将重新计算执行时间。
+# 空闲控制 返回的函数连续调用时，空闲时间必须大于或等于 idle，action 才会执行
+# @param idle   {number}    空闲时间，单位毫秒
+# @param action {function}  请求关联函数，实际应用需要调用的函数
+# @return {function}    返回客户调用函数
+
+var debounce = function(idle, action){
+  var last
+  return function(){
+    var ctx = this, args = arguments
+    clearTimeout(last)
+    last = setTimeout(function(){
+        action.apply(ctx, args)
+    }, idle)
+  }
+}
+
+# 频率控制：预先设定一个执行周期，当调用动作的时刻大于等于执行周期则执行该动作，然后进入下一个新周期，小于该周期不执行
+# 频率控制 返回函数连续调用时，action 执行频率限定为 次 / delay
+# @param delay  {number}    延迟时间，单位毫秒
+# @param action {function}  请求关联函数，实际应用需要调用的函数
+# @return {function}    返回客户调用函数
+var throttle = function(delay, action){
+  var last = 0return function(){
+    var curr = +new Date()
+    if (curr - last > delay){
+      action.apply(this, arguments)
+      last = curr 
+    }
+  }
+}
+```
+
 # ajax下载文件
 1. 设置请求头：`responseType: 'blob'`
 2. 使用响应头传输汉字，会被浏览器默认base64编码，需要做解码处理
