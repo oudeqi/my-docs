@@ -21,8 +21,8 @@
 ``` bash
 const length = 8
 const start = Math.floor(Math.random() * length)
-const secScope = length - start #end安全值范围
-const secEnd = Math.floor.(Math.random() * secScope) #end安全值
+const secScope = length - start # end安全值范围
+const secEnd = Math.floor.(Math.random() * secScope) # end安全值
 cosnt end = secEnd + start + 1
 ```
 
