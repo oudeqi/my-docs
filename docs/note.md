@@ -17,6 +17,87 @@
 14. tree
 15. treeTable
 
+# 关于post请求常见的数据格式（content-type）
+
+axios 使用 post 发送数据时，默认是直接把 json 放到请求体中提交到后端的。也就是说，我们的 Content-Type 变成了 application/json;charset=utf-8 ,这是axios默认的请求头content-type类型。但是实际我们后端要求的 'Content-Type': 'application/x-www-form-urlencoded' 为多见，这就与我们不符合。所以很多同学会在这里犯错误，导致请求数据获取不到。明明自己的请求地址和参数都对了却得不到数据。
+
+1. Content-Type: application/json ： 请求体中的数据会以json字符串的形式发送到后端
+2. Content-Type: application/x-www-form-urlencoded：请求体中的数据会以普通表单形式（键值对）发送到后端
+3. Content-Type: multipart/form-data： 它会将请求体的数据处理为一条消息，以标签为单元，用分隔符分开。既可以上传键值对，也可以上传文件。
+
+后端需要接受的数据类型为：application/x-www-form-urlencoded，我们前端该如何配置：
+``` bash
+
+# 配置axios请求头中的content-type为指定类型
+# axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded'; 
+# 或者 
+# {headers:{'Content-Type':'application/x-www-form-urlencoded'}}
+
+# 将参数转换为query参数, 利用qs
+
+import Qs from 'qs' # 引入 qs ，这个库是 axios 里面包含的，不需要再下载了。
+let data = { "username": "cc", "psd": "123456" }
+axios({
+    headers: {
+        'Content-Type': 'application/x-www-form-urlencoded'
+    },
+    method: 'post',
+    url: '/api/lockServer/search',
+    data: Qs.stringify(data)
+})
+
+```
+Content-Type: multipart/form-data
+对于这种类型的数据，我们常见前端页面上传个人图像，然后点击保存发送后端修改原始数据
+``` bash
+let params = new FormData()
+params.append('file', this.file)
+params.append('id', localStorage.getItem('userID'))
+params.append('userName', this.name)
+
+axios.post(URL, params, {
+    headers: {'Content-Type': 'multipart/form-data'}
+}).then(res => {
+  
+}).catch(error => {
+  alert('更新用户数据失败' + error)
+})
+```
+
+Content-Type: application/json
+这种是axios默认的请求数据类型，我们只需将参数作为json传递即可，无需多余的配置。
+
+
+
+# 操作系统的屏幕缩放设置，导致谷歌浏览器部分宽度出现小数，从而媒体查询的临界点失效
+联想笔记本，高级缩放设置，设置为推荐的125%，谷歌浏览器部分屏幕宽度变成小数，媒体查询在临界点失效
+``` bash
+# window.matchMedia("(min-width: 939px)")
+@media screen and (max-width: 939px) {
+  .test {
+    color: red;
+  }
+}
+@media screen and (min-width: 940px) {
+  .test {
+    color: blue;
+  }
+}
+# 正常情况下最大宽度，最小宽度都应该包含临界点，浏览器宽度在939px时red生效
+# 由于屏幕设置了缩放（125%），部分宽度变成了小数（浏览器宽度设置为939时，实际变成了939.2）临界点939px在该情况下不生效
+# 解决办法是在临界点使用小数代替
+@media screen and (max-width: 939.4px) {
+  .test {
+    color: red;
+  }
+}
+@media screen and (min-width: 939.5px) {
+  .test {
+    color: blue;
+  }
+}
+```
+
 # 固定长度内随机范围，end值的获取
 ``` bash
 const length = 8
@@ -116,7 +197,96 @@ var throttle = function(delay, action){
 }
 ```
 
-# ajax下载文件
+# `axios`下载excel
+
+axios.config.js
+``` bash
+import axios from 'axios'
+import { baseURL, timeout } from './constant'
+import { getToken } from './utils'
+const instance = axios.create();
+instance.defaults.baseURL = baseURL;
+instance.defaults.timeout = timeout;
+instance.defaults.headers.common['Accept-Language'] = 'zh-cn';
+// instance.defaults.headers = {'Content-Type': 'application/json;charset=UTF-8'}
+// instance.defaults.withCredentials = true
+instance.defaults.validateStatus = function (status) {
+    return status >= 200 && status < 300; // 默认的，状态码在200到300之间才会resolve
+}
+// 添加请求拦截器
+instance.interceptors.request.use(function (config) { // 在发送请求之前做些什么
+    config.headers.Token = getToken()
+    return config;
+}, function (error) { // 对请求错误做些什么
+    return Promise.reject(error);
+});
+// 添加响应拦截器
+instance.interceptors.response.use(function (response) { // 对响应数据做点什么
+    
+    if (response.headers['content-type'].includes('application/vnd.ms-excel')) { 
+        // 下载excel做特殊逻辑处理
+        // application/vnd.ms-excel 或者 application/octet-stream 都行
+        return response.data
+    } else {
+        if (response.data.code === 200 || response.data.success) { // 成功或者业务上的失败
+            return response.data
+        } else if (response.data.code === 401) { // 没有登录
+            return Promise.reject({
+                code: response.data.code,
+                message: response.data.message || '请先登陆'
+            });
+        } else if (response.data.code === 403) { // 权限不足
+            return Promise.reject({
+                code: response.data.code,
+                message: response.data.message || '权限不足'
+            });
+        } else { // 后台程序处理后的错误
+            return Promise.reject({
+                code: response.data.code,
+                message: response.data.message || '服务器繁忙'
+            });
+        }
+    }
+}, function (error) { // 对响应错误做点什么
+    return Promise.reject(error); // 服务器捕获到的后台程序抛出的错误
+});
+export default instance
+```
+utils.js
+``` bash
+export const downloadBlob = (b, filename) => {
+  const blob = new Blob([b], {type: 'application/vnd.ms-excel'})
+  const downloadElement = document.createElement('a')
+  downloadElement.target = '_blank'
+  const href = window.URL.createObjectURL(blob)
+  downloadElement.href = href
+  downloadElement.download = filename
+  document.body.appendChild(downloadElement)
+  downloadElement.click()
+  document.body.removeChild(downloadElement)
+  window.URL.revokeObjectURL(href)
+}
+```
+demo.js
+``` bash
+
+# 一定要设置`responseType: 'blob'`，注意get和post的设置方式不一样
+axios.get(url, { responseType: 'blob' }).then(res => {
+  downloadBlob(res, `xxxx-${new Date().getTime()}.xls`)
+}).catch(error => {
+  message.error(error.message || '文件不可用')
+})
+
+axios.post(url, {}, {
+  responseType: 'blob'
+}).then(res => {
+  downloadBlob(res, `xxxx-${new Date().getTime()}.xls`)
+})
+
+```
+
+
+# `ajax`下载文件
 1. 设置请求头：`responseType: 'blob'`
 2. 使用响应头传输汉字，会被浏览器默认base64编码，需要做解码处理
 3. ajax获取特定的响应头，服务器需要做特定的处理
@@ -132,7 +302,7 @@ this.$http.post('/daily/dailyReport/export', {
 }).catch(() => {})
 
 function getFilename (argu) {
-return window.decodeURIComponent(argu.split(';')[1].split('=')[1])
+    return window.decodeURIComponent(argu.split(';')[1].split('=')[1])
 }
 function downloadBlob (data, filename) {
 // const blob = new Blob([data], {type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=utf-8'})
