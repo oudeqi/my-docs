@@ -1,3 +1,19 @@
+/*
+
+postcss-import 包含在PreCSS插件包中
+postcss-simple-vars 支持变量
+postcss-nested 选择器嵌套
+postcss-mixins 包含在PreCSS插件包中，必须运行在postcss-nested和postcss-simple-vars插件之后
+postcss-sassy-mixins Sass语法的mixins
+postcss-for for循环插件，必须运行在postcss-nested和postcss-simple-vars插件之前
+postcss-each each循环插件
+postcss-conditionals 条件判断
+postcss-calc 数学表达式
+postcss-extend 添加扩展
+postcss-sprites 生成CSS雪碧图
+
+*/
+
 /*使用&符，把父选择器复制到子选择器中*/
 .menu {
 	width: 100%;
@@ -16,12 +32,12 @@ $text_color: #232323;
 }
 
 /*条件判断*/
-
-$column_layout: 2;
+$column_count: 3; 
 .column {
-	@if $column_layout == 2 {
-		width: 50%;
-		float: left;
+	@if $column_count == 3 {
+		width: 33%; float: left;
+	} @else if $column_count == 2 {
+		width: 50%; float: left;
 	} @else {
 		width: 100%;
 	}
@@ -89,8 +105,16 @@ $social: twitter, facebook, youtube;
 @import "partials/_extends.css";
 
 
-
-
+/*calc()插件，数学表达式*/
+@define-mixin columns_calc $count {
+	width: calc( 100% / $count );
+	@if $count > 1 {
+		float: left;
+	}
+}
+.column_calculated {
+	@mixin columns_calc 2;
+}
 
 
 
