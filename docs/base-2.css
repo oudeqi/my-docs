@@ -159,6 +159,7 @@ a {
 /*模拟按钮hover效果*/
 @media all and (orientation:portrait) {
 	.css{}
+}
 /*竖屏时使用的样式*/
 @media all and (orientation:landscape) {
 	.css{}

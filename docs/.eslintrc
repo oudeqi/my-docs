@@ -1,0 +1,255 @@
+{
+  "root": true, // 一旦发现了配置文件就停止对文件夹的查找
+  "env": {
+    "browser":true, //启用浏览器全局变量。
+    "node":true, //Node.js全局变量和Node.js范围。
+    "commonjs":true, //CommonJS全局变量和CommonJS范围。
+    "shared-node-browser":true, //Node和Browser共同的全局。
+    "es6" :ture, // 启用ES6的功能。
+    "worker" :true, // 网络工作者全局变量。
+    "amd" :true, // 根据amd规范定义require()和define()作为全局变量。
+    "mocha":true, // 添加所有的摩卡测试全局变量。
+    "jasmine":true, // 添加1.3和2.0版本的所有Jasmine测试全局变量。
+    "jest":true, // Jest全局变量。
+    "jquery":true, // jQuery全局变量。
+    "prototypejs":true, // Prototype.js全局变量。
+    "mongo":true, // MongoDB全局变量。
+    "applescript":true, // AppleScript全局变量。
+    "atomtest":true, // Atom测试助手全局变量
+    "embertest":true, // Ember测试助手全局变量。
+    "webextensions":true // WebExtensions全局变量
+  },
+  "globals": {
+    "$api": true, // true表示变量可以被覆盖，false表示不允许被覆盖
+    "api": true,
+    "apiready": true,
+    "document": true,
+    "navigator": true,
+    "window": true,
+  },
+  "parserOptions": {
+    "ecmaVersion": 6, // ES的版本，默认为5
+    "sourceType": "module", // 指定源代码存在的位置，script | module，默认为script。
+    "ecmaFeatures": { // 指定要使用其他那些语言对象
+      "experimentalObjectRestSpread": true, // 启用对对象的扩展
+      "jsx": true, // 启用jsx语法
+      "globalReturn":true, // 允许return在全局使用
+      "impliedStrict":true // 启用严格校验模式
+    }
+  },
+  "rules": { // off 0 表示关闭规则，warn 1 表示将该规则转换为警告，error 2 表示将该规则转换为错误。
+    "accessor-pairs": 2, // 在定义对象的时候，getter/setter需要同时出现
+    "arrow-parens": [ 2, "as-needed" ], // 箭头函数中，在需要的时候，在参数外使用小括号（只有一个参数时，可以不适用括号，其它情况下都需要使用括号）
+    "arrow-spacing": [ // 箭头函数中的箭头前后需要留空格
+      2, {
+        "before": true,
+        "after": true
+      }
+    ],
+    //该条规则主要用于定义数组字面量定义数组时，前后是否加空格，接受两个可选配置，always 和never .
+    //如果设置为always 那么就应该在在写数组是前后都留空格
+    "array-bracket-spacing": [ 2, "never" ],
+    "block-spacing": [ 2, "always" ], // 如果代码块是单行的时候，代码块内部前后需要留一个空格
+    "brace-style": [ // 大括号语法采用『1tbs』,允许单行样式
+      2, "1tbs", {
+        "allowSingleLine": true
+      }
+    ],
+    /**
+    *该规则会搜索代码中所有的下划线，它会忽略变量名开始和结尾的下划线而只检测变量中间的下划线。
+    *如果ESLint认为一个变量是常量（所有字母大写），那么在变量名字母之间添加下划线也是可以而不会报错的。
+    *该规则只检测生命和定义时的变量而不检测函数调用时的函数名。
+    **/
+    "camelcase": [
+      2, {
+        "properties": "never"
+      }
+    ],
+    "comma-dangle": [ 2, "never" ], // 在定义对象或数组时，最后一项不能加逗号
+    "comma-spacing": [ // 在写逗号时，逗号前面不需要加空格，而逗号后面需要添加空格
+      2, {
+        "before": false,
+        "after": true
+      }
+    ],
+    "comma-style": [ 2, "last" ], // 如果逗号可以放在行首或行尾时，那么请放在行尾
+    "constructor-super": 2, // 在constructor函数中，如果classes是继承其他class，那么请使用super。否者不使用super
+    "curly": [ 2, "multi-line" ], // 在ifelse语句中，如果if或else语句后面是多行，那么必须加大括号。如果是单行就应该省略大括号。
+    "dot-location": [ 2, "property" ], // 该规则规定了.应该放置的位置，
+    "eqeqeq": [ 2, "allow-null" ], // 使用=== !== 代替== != .
+    "generator-star-spacing": [ // 该规则规定了generator函数中星号两边的空白。
+      2, {
+        "before": true,
+        "after": true
+      }
+    ],
+    "handle-callback-err": [ 2, "^(err|error)$" ], // 规定callback 如果有err参数，只能写出err 或者 error .
+    "indent": [ 1, 2 ], // 这个就是关于用什么来缩进了，4个空格=两个tab .
+    "keyword-spacing": [ // keyword 前后需要空格
+      2, {
+        "before": true,
+        "after": true,
+        "overrides": {}
+      }
+    ],
+    "key-spacing": [ // 该规则规定了在对象字面量语法中，key和value之间的空白，冒号前不要空格，冒号后面需要一个空格
+      2, {
+        "beforeColon": false,
+        "afterColon": true
+      }
+    ],
+    "new-cap": [ // 构造函数首字母大写
+      2, {
+        "newIsCap": true,
+        "capIsNew": false
+      }
+    ],
+    "new-parens": 2, // 在使用构造函数时候，函数调用的圆括号不能够省略
+    "no-array-constructor": 2, // 禁止使用Array构造函数
+    "no-caller": 2, // 禁止使用arguments.caller和arguments.callee
+    "no-class-assign": 2, // 禁止覆盖class命名，也就是说变量名不要和class名重名
+    //禁止在case/default语句中使用lexical declarations，例如let, const, function and class .因为在case/default中的声明，
+    //在整个switch语句中都能够访问到，如果实在需要声明变量，可以加大括号。
+    "no-case-declarations": 2,
+    "no-cond-assign": 2, // 在条件语句中不要使用赋值语句
+    "no-const-assign": 2, // const申明的变量禁止修改
+    "no-control-regex": 2, // 在正则表达式中禁止使用控制符（详见官网）
+    "no-debugger": 2, // 禁止使用debugger语句
+    "no-delete-var": 2, // 禁止使用delete删除var申明的变量
+    "no-dupe-args": 2, // 函数参数禁止重名
+    "no-dupe-class-members": 2, // class中的成员禁止重名
+    "no-dupe-keys": 2, // 在对象字面量中，禁止使用重复的key
+    "no-duplicate-case": 2, // 在switch语句中禁止重复的case
+    "no-empty-character-class": 2, // 禁止使用不匹配任何字符串的正则表达式
+    "no-eval": 2, // 禁止使用eval函数
+    "no-ex-assign": 2, // 禁止对catch语句中的参数进行赋值
+    "no-extend-native": 2, // 禁止扩展原生对象
+    "no-extra-bind": 2, // 禁止在不必要的时候使用bind函数
+    "no-extra-boolean-cast": 2, // 在一个本来就会自动转化为布尔值的上下文中就没必要再使用!! 进行强制转化了。
+    "no-extra-parens": [ 2, "functions" ], // 禁止使用多余的圆括号
+    "no-fallthrough": 2, // 这条规则，简单来说就是在case语句中尽量加break，避免不必要的fallthrough错误，如果需要fall through，那么看官网。
+    "no-floating-decimal": 2, // 简单来说不要写这样的数字.2 2.。应该写全，2.2 2.0 .
+    "no-func-assign": 2, // 禁止对函数名重新赋值
+    "no-implied-eval": 2, // 禁止使用类eval的函数。
+    "no-implicit-coercion": 2, // 消除简写的类型转换，而推荐使用一种更加「自解释」的转换方法
+    "no-inner-declarations": [ 2, "functions" ], // 禁止在代码块中定义函数（下面的规则仅限制函数）
+    "no-invalid-regexp": 2, // RegExp构造函数中禁止使用非法正则语句
+    "no-invalid-this": 2, // 在严格模式下，在classes或者classes like对象外部使用this关键词this将被视为undefined 并且抛出TypeError错误。
+    "no-irregular-whitespace": 2, // 禁止使用不规则的空白符
+    "no-iterator": 2, // 禁止使用__iterator__属性
+    "no-label-var": 2, // label和var申明的变量不能重名
+    "no-labels": [ // 禁止使用label语句
+      2, {
+        "allowLoop": false,
+        "allowSwitch": false
+      }
+    ],
+    "no-lone-blocks": 2, // 禁止使用没有必要的嵌套代码块
+    "no-mixed-spaces-and-tabs": 2, // 不要把空格和tab混用
+    "no-multi-spaces": 2, // 该规则保证了在逻辑表达式、条件表达式、申明语句、数组元素、对象属性、sequences、函数参数中不使用超过一个的空白符。
+    "no-multi-str": 2, // 该规则保证了字符串不分两行书写。
+    "no-multiple-empty-lines": [ // 空行不能够超过3行
+      2, {
+        "max": 3
+      }
+    ],
+    "no-native-reassign": 2, // 该规则保证了不重写原生对象。
+    "no-negated-in-lhs": 2, // 在in操作符左边的操作项不能用! 例如这样写不对的：if ( !a in b) { //dosomething }
+    "no-new": 2, // 当我们使用new操作符去调用构造函数时，需要把调用结果赋值给一个变量。
+    "no-new-func": 2, // 该规则保证了不使用new Function(); 语句。
+    "no-new-object": 2, // 不要通过new Object（），来定义对象
+    "no-new-require": 2, // 禁止把require方法和new操作符一起使用。
+    "no-new-wrappers": 2, // 当定义字符串、数字、布尔值就不要使用构造函数了，String、Number、Boolean
+    "no-obj-calls": 2, // 禁止无意得把全局对象当函数调用了，比如下面写法错误的：Math(), JSON()
+    "no-octal": 2, // 不要使用八进制的语法。
+    "no-octal-escape": 2, // 用的少见官网 eslint.org/docs/rules/
+    "no-proto": 2, // 不要使用__proto__
+    "no-redeclare": 2, // 不要重复申明一个变量
+    "no-regex-spaces": 2, // 正则表达式中不要使用空格
+    "no-return-assign": 2, // return语句中不要写赋值语句
+    "no-self-compare": 2, // 不要和自身作比较
+    "no-sequences": 2, // 不要使用逗号操作符，详见官网
+    "no-shadow-restricted-names": 2, // 禁止对一些关键字或者保留字进行赋值操作，比如NaN、Infinity、undefined、eval、arguments等。
+    "no-spaced-func": 2, // 函数调用时，圆括号前面不能有空格
+    "no-sparse-arrays": 2, // 禁止使用稀疏数组
+    "no-this-before-super": 2, // 在调用super之前不能使用this对象
+    "no-throw-literal": 2, // 严格限制了抛出错误的类型，简单来说只能够抛出Error生成的错误。但是这条规则并不能够保证你只能够抛出Error错误。详细见官网
+    "no-trailing-spaces": 2, // 行末禁止加空格
+    "no-undef": 2, // 禁止使用没有定义的变量，除非在／＊global＊／已经申明
+    "no-undef-init": 2, // 禁止把undefined赋值给一个变量
+    "no-unexpected-multiline": 2, // 禁止在不需要分行的时候使用了分行
+    "no-unneeded-ternary": [ //禁止使用没有必要的三元操作符，因为用些三元操作符可以使用其他语句替换
+      2, {
+        "defaultAssignment": false
+      }
+    ],
+    "no-unreachable": 2, // 没有执行不到的代码
+    "no-unused-vars": [ // 没有定义了没有被使用到的变量
+      0, {
+        "vars": "all",
+        "args": "none"
+      }
+    ],
+    "no-useless-call": 2, // 禁止在不需要使用call（）或者apply（）的时候使用了这两个方法
+    "no-with": 2, // 不要使用with语句
+    "one-var": [ //在某些场景只能使用一个var来申明变量
+      2, {
+        "initialized": "never"
+      }
+    ],
+    "operator-linebreak": [ // 在进行断行时，操作符应该放在行首还是行尾。并且还可以对某些操作符进行重写。
+      2, "after", {
+        "overrides": {
+          "?": "before",
+          ":": "before"
+        }
+      }
+    ],
+    "quotes": [ 1, "single", "avoid-escape" ], // 使用单引号
+    "radix": 2, // 在使用parseInt() 方法时，需要传递第二个参数，来帮助解析，告诉方法解析成多少进制。
+    "semi": [ 2, "never" ], //这就是分号党和非分号党关心的了，我们还是选择不加分号
+    "semi-spacing": [ // 该规则规定了分号前后的空格，具体规定如下。
+      2, {
+        "before": false,
+        "after": true
+      }
+    ],
+    "space-before-blocks": [ 2, "always" ], // 代码块前面需要加空格
+    "space-before-function-paren": [ 2, "never" ], // 函数圆括号前面需要加空格
+    "space-in-parens": [ 2, "never" ], // 圆括号内部不需要加空格
+    "space-infix-ops": 2, // 操作符前后需要加空格
+    "space-unary-ops": [ // 一元操作符前后是否需要加空格，单词类操作符需要加，而非单词类操作符不用加
+      2, {
+        "words": true,
+        "nonwords": false
+      }
+    ],
+    "spaced-comment": [ // 评论符号｀／*｀ ｀／／｀，后面需要留一个空格
+      2, "always", {
+        "markers": [
+          "global",
+          "globals",
+          "eslint",
+          "eslint-disable",
+          "*package",
+          "!",
+          ","
+        ]
+      }
+    ],
+    "use-isnan": 2, // 推荐使用isNaN方法，而不要直接和NaN作比较
+    "valid-typeof": 2, // 在使用typeof操作符时，作比较的字符串必须是合法字符串eg：'string'，'object'
+    "wrap-iife": [ 2, "any" ], // 立即执行函数需要用圆括号包围
+    //yoda条件语句就是字面量应该写在比较操作符的左边，而变量应该写在比较操作符的右边。
+    //而下面的规则要求，变量写在前面，字面量写在右边
+    "yoda": [ 2, "never" ],
+    "require-yield": 0,
+    # "react/require-extension": [ // react组件文件使用.jsx
+    #   1, {
+    #     "extensions": [
+    #       ".jsx"
+    #     ]
+    #   }
+    # ]
+  }
+}

@@ -1,3 +1,104 @@
+# 当 form 中只有一个 input 时回车会自动提交表单，这是浏览器的默认行为。
+解决办法：
+1. 在 Input 上加 @keydown.native.enter.prevent ="handleEnter"
+2. 在 Form 上加 @submit.native.prevent
+
+# table 圆角边框的实现
+在table上直接用
+`border-collapse: collapse;border: 1px solid #e6e6e6;border-radius: 4px;overflow: hidden;`
+无法实现兼容的圆角边框，因为同时使用
+`border-collapse: collapse;overflow: hidden;`
+部分浏览器会把右边和下面的边框隐藏掉，出现兼容问题，正确的处理办法是在`th`和`td`来实现。
+``` bash
+<table border="0" cellspacing="0" cellpadding="0"><tbody>
+table {
+    border-collapse: separate; 
+  tr {
+    &:first-child th:first-child { /* 设置table左上角圆角 */
+      border-top-left-radius: 4px;
+      overflow: hidden;
+    }
+    &:first-child th:last-child { /* 设置table右上角圆角 */
+      border-top-right-radius: 4px;
+      overflow: hidden;
+    }
+    &:last-child td:first-child {
+      border-bottom-left-radius: 4px; /* 设置table左下角圆角 */
+      overflow: hidden;
+    }
+    &:last-child td:last-child {
+      border-bottom-right-radius: 4px; /* 设置table右下角圆角 */
+      overflow: hidden;
+    }
+    td, th {
+      border-top: 1px solid #e6e6e6;
+      border-left: 1px solid #e6e6e6;
+      &:last-child {
+        border-right: 1px solid #e6e6e6; /* 设置table右边边框 */
+      }
+    }
+    &:last-child td {
+      border-bottom: 1px solid #e6e6e6; /* 设置table下边边框 */
+    }
+  }
+}
+```
+
+# VUE scoped 深度作用选择器，局部修改 Element UI 组件库样式
+``` bash
+<style scoped>
+.page-container >>> .el-switch__label {
+  color: red;
+}
+# .page-container[data-v-f3f3eg9] .el-switch__label { /* ... */ }
+# Sass 之类的与处理器无法正确解析 >>> ,可以用 /deep/ 操作符代替，/deep/操作符是 >>> 的别名
+.page-container /deep/ .el-switch__label {
+  color: red;
+}
+</style>
+```
+
+# axios error 回调获取response
+``` bash
+我靠 error回调函数的参数 悄悄地挂上了 response，直接打印error参数看不到response，只能看到错误堆栈。
+这个操作有点骚
+```
+
+# js原型
+``` bash
+原型的作用：可以让多个对象共享属性
+原型的应用：可以实现继承
+原型的访问: obj.__proto__，fn.prototype
+
+原型的原理：
+
+1. 在js中每个对象都有一个与它关联的对象，叫做原型对象，对象的原型对象是通过obj.__proto__来获取的。
+2. 每一次获取对象属性都是一次查询过程，当在对象的自有属性中找不到时就会去查找它的原型对象。
+3. obj.__proto__对象上是所有对象共有的属性，比如constructor，hasOwnProperty，toString
+valueOf，isPrototypeOf。
+
+1. 在js中函数也是一个对象，每个函数都有一个原型对象，通过fn.prototype来获取和设置。
+2. 函数的原型对象是一个指针，指向一个对象，而这个对象的用途是共享某一类对象的属性和方法。
+3. 函数的原型对象会自动获得一个constructor属性，这个constructo属性指向函数本身。
+
+const Ani = function () { this.type = 'ani' }
+const Dog = function () { this.type = 'dog' }
+const Teddy = function () { this.type = 'teddy' }
+
+let ani = new Ani() # ani.__proto__ === Ani.prototype
+let dog = new Dog() # dog.__proto__ === Dog.prototype
+let teddy = new Teddy() # teddy.__proto__ === Teddy.prototype
+
+Teddy.prototype = new Dog() # 泰迪继承狗
+Teddy.prototype.__proto__ === Dog.prototype # 继承的实质
+teddy.__proto__.__proto__ === dog.__proto__ # 继承的实质
+
+Dog.prototype = new Ani() # 狗继承动物
+Dog.prototype.__proto__ === Ani.prototype # 继承的实质
+dog.__proto__.__proto__ === ani.__proto__ # 继承的实质
+Teddy.prototype.__proto__.__proto__ === Ani.prototype # 继承的实质
+teddy.__proto__.__proto__.__proto__ === ani.__proto__ # 继承的实质
+```
 
 # TODO
 
@@ -17,13 +118,17 @@
 14. tree
 15. treeTable
 
+
+
+
+
 # 关于post请求常见的数据格式（content-type）
 
 axios 使用 post 发送数据时，默认是直接把 json 放到请求体中提交到后端的。也就是说，我们的 Content-Type 变成了 application/json;charset=utf-8 ,这是axios默认的请求头content-type类型。但是实际我们后端要求的 'Content-Type': 'application/x-www-form-urlencoded' 为多见，这就与我们不符合。所以很多同学会在这里犯错误，导致请求数据获取不到。明明自己的请求地址和参数都对了却得不到数据。
 
-1. Content-Type: application/json ： 请求体中的数据会以json字符串的形式发送到后端
-2. Content-Type: application/x-www-form-urlencoded：请求体中的数据会以普通表单形式（键值对）发送到后端
-3. Content-Type: multipart/form-data： 它会将请求体的数据处理为一条消息，以标签为单元，用分隔符分开。既可以上传键值对，也可以上传文件。
+1. Content-Type: application/json ： 纯文本的方式提交，请求体中的数据会以json字符串的形式发送
+2. Content-Type: application/x-www-form-urlencoded：表单方式提交，请求体中的数据会以键值对发送
+3. Content-Type: multipart/form-data： 表单方式提交，它会将请求体的数据处理为一条消息，以标签为单元，用分隔符分开。既可以上传键值对，也可以上传文件。
 
 后端需要接受的数据类型为：application/x-www-form-urlencoded，我们前端该如何配置：
 ``` bash
@@ -66,6 +171,11 @@ axios.post(URL, params, {
 
 Content-Type: application/json
 这种是axios默认的请求数据类型，我们只需将参数作为json传递即可，无需多余的配置。
+
+
+
+
+
 
 
 
@@ -1753,6 +1863,18 @@ if(isIE){
         isIE6 = true;
         document.execCommad('backgroundimagecache',false,false); //IE6并不会对背景图片进行缓存，故进行修补
     }
+}
+```
+
+# 文字多行超出显示省略号
+``` bash
+@define-mixin motw {
+    text-overflow: -o-ellipsis-lastline;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
 }
 ```
 

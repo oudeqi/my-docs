@@ -13,6 +13,11 @@ $ npm init -y
 $ npm install -g cnpm --registry=https://registry.npm.taobao.org
 ```
 
+# 删除全局
+``` bash
+npm rm --global gulp
+npm uninstall --global gulp
+```
 ## 将mongodb安装为windows服务并开启的命令：
 ``` bash
 $ mongod -dbpath d:mongodb/data -logpath d:/mongodb/log/mongo.log -logappend -install -serviceName "MongoDB"
